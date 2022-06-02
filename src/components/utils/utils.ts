@@ -1,0 +1,33 @@
+export const swap = (arr: Array<string>, firstIndex: number, secondIndex: number): void => {
+  const temp = arr[firstIndex];
+  arr[firstIndex] = arr[secondIndex];
+  arr[secondIndex] = temp;
+}
+
+export const partition = (arr: Array<string>, start = 0, end = arr.length - 1): number => {
+  const pivotValue = arr[end];
+
+  let pivotIndex = start;
+
+  for (let i = start; i < end; i++) {
+    if (arr[i] <= pivotValue) {
+      swap(arr, i, pivotIndex);
+      pivotIndex++;
+    }
+  }
+
+  swap(arr, pivotIndex, end);
+
+  return pivotIndex;
+}
+
+// export const generateFibArray = (res: number): Array<number> => {
+//   let arr = [];
+//   // if (res === 1) {
+//   //   arr = [1];
+//   // } else
+//   if (res !== 1 && res > 2) {
+//     arr.push(res);
+//   }
+//   return arr;
+// }

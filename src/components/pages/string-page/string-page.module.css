@@ -1,0 +1,17 @@
+.inputWrap {
+  display: flex;
+  justify-content: space-between;
+  max-width: 522px;
+  margin: auto;
+}
+
+.inputWrap > button {
+  margin-left: 12px;
+}
+
+.lettersWrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 120px;
+  gap: 0 20px;
+}
