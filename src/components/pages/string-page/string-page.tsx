@@ -6,52 +6,59 @@ import {SolutionLayout} from "../../ui/solution-layout/solution-layout";
 import {Input} from "../../ui/input/input";
 import {Button} from "../../ui/button/button";
 import {Circle} from "../../ui/circle/circle";
+import {ElementStates} from "../../../types/element-states";
+import {TSymbolArray} from "../../../types";
 import {reverseString} from "../../utils/algorithms";
-
-import {Node} from "../../../types";
+import {setRenderingTimer} from "../../utils/utils";
 
 export const StringComponent: React.FC = () => {
-  const [inputValue, setInputValue] = useState<string>('');
-  let letters = inputValue.split('');
-  let lettersList: Node | null;
+  const [letters, setLettersArray] = useState<TSymbolArray>([]);
 
-  const changeArrayToLinkedList = (arr: Array<string>): Node | null => {
-    let head: Node | null = null;
-    arr.reduce((acc: Node | null, curr) => {
-        if (acc == null) {
-          acc = new Node(curr);
-          head = acc; // замыкание, чтобы не потерять head
-        } else {
-          let currentNode = new Node(curr);
-          acc.next = currentNode;
-          acc = currentNode;
-        }
-        return acc;
-      }, null
-    );
-
-    return head;
+  // Изменить статус/внешний вид символов:
+  const changeSymbolStatus = (arr: TSymbolArray, status: ElementStates, start: number, end?: number) => {
+    if (end && start <= end) {
+      arr[start].status = status;
+      arr[end].status = status;
+    }
   }
 
-  lettersList = changeArrayToLinkedList(letters);
-  console.log(lettersList)
+  // Изменить статус/внешний вид символов с паузой и обновить стейт для рендеринга
+  const changeSymbolRendering = async (arr: TSymbolArray, status: ElementStates, startIndex: number, endIndex: number) => {
+    changeSymbolStatus(arr, status, startIndex, endIndex );
+    setLettersArray([...arr])
+    await setRenderingTimer(1000);
+  }
+
+  // Хендлер нажатия на кнопку
+  const handleStringReverse = () => {
+    if (letters[0].status === ElementStates.Modified) {
+      setLettersArray(letters.map(letter => {
+        letter.status = ElementStates.Default;
+        return letter
+      }))
+    }
+    // Собственно, переворот
+    reverseString(letters, changeSymbolRendering, ElementStates.Changing, ElementStates.Modified);
+  }
 
   return (
     <SolutionLayout title="Строка">
       <div className={stringPage.inputWrap}>
         <Input maxLength={11} isLimitText onChange={(e: ChangeEvent<HTMLInputElement>) => {
-          setInputValue(e.target.value)
+          setLettersArray(e.target.value.split('').map(letter => {
+            return {
+              symbol: letter,
+              status: ElementStates.Default,
+            }
+          }))
         }}/>
-        <Button text="Развернуть" onClick={() => {
-          reverseString(changeArrayToLinkedList(letters));
-          console.log(reverseString(changeArrayToLinkedList(letters)))
-        }}/>
+        <Button text="Развернуть" onClick={handleStringReverse}/>
       </div>
       <div className={stringPage.lettersWrap}>
         {
-          inputValue !== '' &&
-          (letters.map((letter, index) =>
-            <Circle key={index} symbol={letter}/>))
+          letters &&
+          letters.map((letter, index) =>
+            <Circle key={index} state={letter.status} symbol={letter.symbol}/>)
         }
       </div>
 

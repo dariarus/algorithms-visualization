@@ -1,33 +1,27 @@
-import {Node} from "../../types";
+import {swap} from "./utils";
+import {TSymbolArray} from "../../types";
+import {ElementStates} from "../../types/element-states";
 
-// export const reverseString = (arr: Array<string>, start = 0, end = arr.length - 1): Array<string> | null => {
-//   if (end <= start) {
-//     return arr;
-//   }
-//   if (arr.length <= 1) {
-//     return null;
-//   }
-//   let pivotIndex: number = partition(arr, start, end);
-//   console.log(arr);
-//   reverseString(arr, start, pivotIndex - 1);
-//   reverseString(arr, pivotIndex + 1, end);
-//
-//   return arr;
-// }
-
-export const reverseString = (head: Node | null): Node | null => {
-
-  let curr = head;
-  let prev = null;
-
-  while (curr) {
-    let tmp = curr.next;
-    curr.next = prev;
-    prev = curr;
-    curr = tmp;
+export const reverseString = async (arr: TSymbolArray, callback: Function,
+                                    isChangingStatus: ElementStates, isModifiedStatus: ElementStates) => {
+  let start = 0;
+  let end = arr.length - 1
+  if (!arr) {
+    return;
   }
-  return prev;
-};
+  while (start <= end) {
+    if (arr.length === 1) {
+      await callback(arr, isChangingStatus, 0, 0);
+      await callback(arr, isModifiedStatus, 0, 0);
+    }
+
+    await callback(arr, isChangingStatus, start, end);
+    swap(arr, start, end);
+    await callback(arr, isModifiedStatus, start, end);
+    start++;
+    end--;
+  }
+}
 
 export const fib = (n: number): Array<number> => {
   let curr = 1;

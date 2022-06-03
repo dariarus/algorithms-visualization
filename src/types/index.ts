@@ -1,3 +1,5 @@
+import {ElementStates} from "./element-states";
+
 export class Node<T = string> {
   value: T
   next: Node<T> | null;
@@ -7,3 +9,8 @@ export class Node<T = string> {
     this.next = (next === undefined ? null : next);
   }
 }
+
+export type TSymbolArray = Array<{
+  symbol: string,
+  status: ElementStates
+}>
