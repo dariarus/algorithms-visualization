@@ -6,6 +6,9 @@
 import {TSymbolArray} from "../../types";
 
 export const swap = (arr: TSymbolArray, firstIndex: number, secondIndex: number): void => {
+  if (firstIndex === secondIndex) {
+    return;
+  }
   let temp = arr[firstIndex];
   arr[firstIndex] = arr[secondIndex];
   arr[secondIndex] = temp;

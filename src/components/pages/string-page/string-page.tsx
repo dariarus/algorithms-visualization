@@ -8,56 +8,69 @@ import {Button} from "../../ui/button/button";
 import {Circle} from "../../ui/circle/circle";
 import {ElementStates} from "../../../types/element-states";
 import {TSymbolArray} from "../../../types";
-import {reverseString} from "../../utils/algorithms";
-import {setRenderingTimer} from "../../utils/utils";
+import {setRenderingTimer, swap} from "../../utils/utils";
 
 export const StringComponent: React.FC = () => {
-  const [letters, setLettersArray] = useState<TSymbolArray>([]);
+  const [inputValue, setInputValue] = useState<string>('');
+  const [lettersArray, setLettersArray] = useState<TSymbolArray>([]);
 
-  // Изменить статус/внешний вид символов:
-  const changeSymbolStatus = (arr: TSymbolArray, status: ElementStates, start: number, end?: number) => {
-    if (end && start <= end) {
+
+  const getLettersArray = () => {
+    return inputValue.split('')
+      .map(letter => {
+        return {
+          symbol: letter,
+          status: ElementStates.Default,
+        }
+      })
+  }
+
+  const reverseString = async () => {
+    let arr = getLettersArray();
+    let start = 0;
+    let end = arr.length - 1
+    if (!arr) {
+      return;
+    }
+    setLettersArray([...arr]);
+    while (start <= end) {
+      await changeSymbolRendering(arr, ElementStates.Changing, start, end);
+      swap(arr, start, end);
+      await changeSymbolRendering(arr, ElementStates.Modified, start, end);
+      start++;
+      end--;
+    }
+  }
+
+// Изменить статус/внешний вид символов:
+  const changeSymbolStatus = (arr: TSymbolArray, status: ElementStates, start: number, end: number) => {
+    if (start <= end) {
       arr[start].status = status;
       arr[end].status = status;
     }
   }
 
-  // Изменить статус/внешний вид символов с паузой и обновить стейт для рендеринга
+// Изменить статус/внешний вид символов с паузой и обновить стейт для рендеринга
   const changeSymbolRendering = async (arr: TSymbolArray, status: ElementStates, startIndex: number, endIndex: number) => {
-    changeSymbolStatus(arr, status, startIndex, endIndex );
-    setLettersArray([...arr])
     await setRenderingTimer(1000);
-  }
-
-  // Хендлер нажатия на кнопку
-  const handleStringReverse = () => {
-    if (letters[0].status === ElementStates.Modified) {
-      setLettersArray(letters.map(letter => {
-        letter.status = ElementStates.Default;
-        return letter
-      }))
-    }
-    // Собственно, переворот
-    reverseString(letters, changeSymbolRendering, ElementStates.Changing, ElementStates.Modified);
+    changeSymbolStatus(arr, status, startIndex, endIndex);
+    setLettersArray([...arr])
   }
 
   return (
     <SolutionLayout title="Строка">
       <div className={stringPage.inputWrap}>
         <Input maxLength={11} isLimitText onChange={(e: ChangeEvent<HTMLInputElement>) => {
-          setLettersArray(e.target.value.split('').map(letter => {
-            return {
-              symbol: letter,
-              status: ElementStates.Default,
-            }
-          }))
+          setInputValue(e.target.value);
         }}/>
-        <Button text="Развернуть" onClick={handleStringReverse}/>
+        <Button text="Развернуть" onClick={() => {
+          reverseString();
+        }}/>
       </div>
       <div className={stringPage.lettersWrap}>
         {
-          letters &&
-          letters.map((letter, index) =>
+          lettersArray &&
+          lettersArray.map((letter, index) =>
             <Circle key={index} state={letter.status} symbol={letter.symbol}/>)
         }
       </div>
