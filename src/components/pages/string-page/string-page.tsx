@@ -13,7 +13,7 @@ import {setRenderingTimer, swap} from "../../utils/utils";
 export const StringComponent: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>('');
   const [lettersArray, setLettersArray] = useState<TSymbolArray>([]);
-
+  const [buttonLoaderRender, setButtonLoaderRender] = useState<boolean>(false);
 
   const getLettersArray = () => {
     return inputValue.split('')
@@ -40,6 +40,7 @@ export const StringComponent: React.FC = () => {
       start++;
       end--;
     }
+    setButtonLoaderRender(false);
   }
 
 // Изменить статус/внешний вид символов:
@@ -63,7 +64,8 @@ export const StringComponent: React.FC = () => {
         <Input maxLength={11} isLimitText onChange={(e: ChangeEvent<HTMLInputElement>) => {
           setInputValue(e.target.value);
         }}/>
-        <Button text="Развернуть" onClick={() => {
+        <Button text="Развернуть" disabled={inputValue === ''} isLoader={buttonLoaderRender} onClick={() => {
+          setButtonLoaderRender(true);
           reverseString();
         }}/>
       </div>

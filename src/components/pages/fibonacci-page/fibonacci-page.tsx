@@ -15,6 +15,8 @@ import {setRenderingTimer} from "../../utils/utils";
 export const FibonacciPage: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>('');
   const [fibNumberArray, setFibNumberArray] = useState<Array<number>>([]);
+  const [buttonLoaderRender, setButtonLoaderRender] = useState<boolean>(false);
+
   let number = parseInt(inputValue, 10);
 
 
@@ -26,6 +28,7 @@ export const FibonacciPage: React.FC = () => {
       await setRenderingTimer(1000);
       setFibNumberArray(fibArray.slice(0, i + 1));
     }
+    setButtonLoaderRender(false);
   }
 
   return (
@@ -37,7 +40,8 @@ export const FibonacciPage: React.FC = () => {
             setFibNumberArray([]);
           }
         }}/>
-        <Button text="Раcсчитать" disabled={number > 19} onClick={() => {
+        <Button text="Раcсчитать" disabled={!number || number > 19} isLoader={buttonLoaderRender} onClick={() => {
+          setButtonLoaderRender(true);
           changeFibRendering();
         }}/>
       </div>
