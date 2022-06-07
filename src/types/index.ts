@@ -11,6 +11,6 @@ export class Node<T = string> {
 }
 
 export type TSymbolArray = Array<{
-  symbol: string,
+  symbol: string | number,
   status: ElementStates
 }>

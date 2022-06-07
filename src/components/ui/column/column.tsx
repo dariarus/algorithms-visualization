@@ -14,10 +14,10 @@ export const Column: React.FC<ColumnProps> = ({
   extraClass = "",
 }) => (
   <div className={`${styles.content} ${extraClass}`}>
+    <p className={`text text_type_column text_color_input mt-3`}>{index}</p>
     <div
       className={`${styles.column} ${styles[state]}`}
       style={{ height: (320 * index) / 100 || 1 }}
     />
-    <p className={`text text_type_column text_color_input mt-3`}>{index}</p>
   </div>
 );

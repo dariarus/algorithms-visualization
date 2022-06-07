@@ -8,25 +8,31 @@ import {Button} from "../../ui/button/button";
 import {Circle} from "../../ui/circle/circle";
 import {ElementStates} from "../../../types/element-states";
 import {TSymbolArray} from "../../../types";
-import {setRenderingTimer, swap} from "../../utils/utils";
+import {getArray, setRenderingTimer, swap} from "../../utils/utils";
+import {DELAY_IN_MS} from "../../../constants/delays";
 
 export const StringComponent: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>('');
   const [lettersArray, setLettersArray] = useState<TSymbolArray>([]);
   const [buttonLoaderRender, setButtonLoaderRender] = useState<boolean>(false);
 
-  const getLettersArray = () => {
-    return inputValue.split('')
-      .map(letter => {
-        return {
-          symbol: letter,
-          status: ElementStates.Default,
-        }
-      })
+  // Изменить статус/внешний вид символов:
+  const changeSymbolStatus = (arr: TSymbolArray, status: ElementStates, start: number, end: number) => {
+    if (start <= end) {
+      arr[start].status = status;
+      arr[end].status = status;
+    }
+  }
+
+  // Изменить статус/внешний вид символов с паузой и обновить стейт для рендеринга
+  const changeSymbolRendering = async (arr: TSymbolArray, status: ElementStates, startIndex: number, endIndex: number) => {
+    await setRenderingTimer(DELAY_IN_MS);
+    changeSymbolStatus(arr, status, startIndex, endIndex);
+    setLettersArray([...arr])
   }
 
   const reverseString = async () => {
-    let arr = getLettersArray();
+    let arr = getArray(inputValue.split(''));
     let start = 0;
     let end = arr.length - 1
     if (!arr) {
@@ -41,21 +47,6 @@ export const StringComponent: React.FC = () => {
       end--;
     }
     setButtonLoaderRender(false);
-  }
-
-// Изменить статус/внешний вид символов:
-  const changeSymbolStatus = (arr: TSymbolArray, status: ElementStates, start: number, end: number) => {
-    if (start <= end) {
-      arr[start].status = status;
-      arr[end].status = status;
-    }
-  }
-
-// Изменить статус/внешний вид символов с паузой и обновить стейт для рендеринга
-  const changeSymbolRendering = async (arr: TSymbolArray, status: ElementStates, startIndex: number, endIndex: number) => {
-    await setRenderingTimer(1000);
-    changeSymbolStatus(arr, status, startIndex, endIndex);
-    setLettersArray([...arr])
   }
 
   return (
