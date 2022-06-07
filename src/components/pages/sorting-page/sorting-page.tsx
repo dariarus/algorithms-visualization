@@ -16,11 +16,11 @@ import {SHORT_DELAY_IN_MS} from "../../../constants/delays";
 export const SortingPage: React.FC = () => {
   const [numbersArray, setNumbersArray] = useState<TSymbolArray>([]);
   const [radioValue, setRadioValue] = useState<string>('selection');
-  // const [sortType, setSortType] = useState<'ascending' | 'descending'>('descending');
+
 
   const [isAscSortButtonDisabled, setIsAscSortButtonDisabled] = useState<boolean>(true);
   const [isDescSortButtonDisabled, setIsDescSortButtonDisabled] = useState<boolean>(true);
-  const [buttonLoaderRender, setButtonLoaderRender] = useState<boolean>(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
   const [buttonAscLoaderRender, setButtonAscLoaderRender] = useState<boolean>(false);
   const [buttonDescLoaderRender, setButtonDescLoaderRender] = useState<boolean>(false);
 
@@ -37,7 +37,7 @@ export const SortingPage: React.FC = () => {
       setButtonDescLoaderRender(false);
       setIsAscSortButtonDisabled(false);
     }
-    setButtonLoaderRender(false);
+    setIsButtonDisabled(false);
   }
 
   // Изменить статус/внешний вид символов:
@@ -124,7 +124,7 @@ export const SortingPage: React.FC = () => {
                     disabled={isAscSortButtonDisabled} onClick={() => {
               setButtonAscLoaderRender(true);
               setIsDescSortButtonDisabled(true);
-              setButtonLoaderRender(true);
+              setIsButtonDisabled(true);
               if (radioValue === "selection") {
                 doSelectionSort('ascending');
               } else {
@@ -135,7 +135,7 @@ export const SortingPage: React.FC = () => {
                     disabled={isDescSortButtonDisabled} onClick={() => {
               setIsAscSortButtonDisabled(true);
               setButtonDescLoaderRender(true);
-              setButtonLoaderRender(true);
+              setIsButtonDisabled(true);
               if (radioValue === "selection") {
                 doSelectionSort('descending');
               } else {
@@ -144,7 +144,7 @@ export const SortingPage: React.FC = () => {
             }}/>
           </div>
         </div>
-        <Button text="Новый массив" isLoader={buttonLoaderRender} onClick={() => {
+        <Button text="Новый массив" disabled={isButtonDisabled} onClick={() => {
           setIsAscSortButtonDisabled(false);
           setIsDescSortButtonDisabled(false);
           let array = generateRandomArray();
