@@ -29,19 +29,33 @@ export const SortingPage: React.FC = () => {
     return Array.from({length: randomArrayLength}).map(x => Math.floor(Math.random() * (maxValue - minValue) + minValue))
   }
 
-  // Изменить статус/внешний вид символов:
-  const changeSymbolStatus = (arr: TSymbolArray, status: ElementStates, index: number) => {
-    arr[index].status = status;
+  const changeButtonsToDefault = (typeOfSort: string) => {
+    if (typeOfSort === 'ascending') {
+      setButtonAscLoaderRender(false);
+      setIsDescSortButtonDisabled(false);
+    } else {
+      setButtonDescLoaderRender(false);
+      setIsAscSortButtonDisabled(false);
+    }
+    setButtonLoaderRender(false);
   }
 
-  const changeSymbolRendering = (arr: TSymbolArray, status: ElementStates, currIndex: number) => {
-    changeSymbolStatus(arr, status, currIndex);
+  // Изменить статус/внешний вид символов:
+  const changeSymbolStatus = (arr: TSymbolArray, status: ElementStates, firstIndex: number, secondIndex?: number) => {
+    arr[firstIndex].status = status;
+    if (secondIndex) {
+      arr[secondIndex].status = status;
+    }
+  }
+
+  const changeSymbolRendering = (arr: TSymbolArray, status: ElementStates, currIndex: number, nextIndex?: number) => {
+    changeSymbolStatus(arr, status, currIndex, nextIndex);
     setNumbersArray([...arr])
   }
 
-  const changeSymbolRenderingAsync = async (arr: TSymbolArray, status: ElementStates, currIndex: number) => {
+  const changeSymbolRenderingAsync = async (arr: TSymbolArray, status: ElementStates, currIndex: number, nextIndex?: number) => {
     await setRenderingTimer(SHORT_DELAY_IN_MS);
-    changeSymbolRendering(arr, status, currIndex);
+    changeSymbolRendering(arr, status, currIndex, nextIndex);
   }
 
   const doSelectionSort = async (typeOfSort: string) => {
@@ -49,7 +63,7 @@ export const SortingPage: React.FC = () => {
       let currInd = i;
       await changeSymbolRenderingAsync(numbersArray, ElementStates.Changing, currInd);
       for (let nextInd = i + 1; nextInd < numbersArray.length; nextInd++) {
-        await changeSymbolRenderingAsync(numbersArray, ElementStates.Changing, nextInd);
+        changeSymbolRendering(numbersArray, ElementStates.Changing, nextInd);
         if (typeOfSort === 'ascending') {
           if (numbersArray[currInd].symbol > numbersArray[nextInd].symbol) {
             currInd = nextInd;
@@ -68,14 +82,29 @@ export const SortingPage: React.FC = () => {
       changeSymbolRendering(numbersArray, ElementStates.Modified, i);
     }
     changeSymbolRendering(numbersArray, ElementStates.Modified, numbersArray.length - 1);
-    if (typeOfSort === 'ascending') {
-      setButtonAscLoaderRender(false);
-      setIsDescSortButtonDisabled(false);
-    } else {
-      setButtonDescLoaderRender(false);
-      setIsAscSortButtonDisabled(false);
+
+    changeButtonsToDefault(typeOfSort);
+  }
+
+  const doBubbleSort = async (typeOfSort: string) => {
+    for (let i = 0; i < numbersArray.length; i++) {
+      for (let j = 0; j < numbersArray.length - i - 1; j++) {
+        changeSymbolRendering(numbersArray, ElementStates.Changing, j, j + 1);
+        if (typeOfSort === 'ascending') {
+          if (numbersArray[j].symbol > numbersArray[j + 1].symbol) { // сортируем элементы по возрастанию
+            swap(numbersArray, j, j + 1);
+          }
+        } else {
+          if (numbersArray[j].symbol < numbersArray[j + 1].symbol) { // сортируем элементы по возрастанию
+            swap(numbersArray, j, j + 1);
+          }
+        }
+        await changeSymbolRenderingAsync(numbersArray, ElementStates.Default, j, j + 1);
+        changeSymbolRendering(numbersArray, ElementStates.Modified, j + 1);
+      }
+      changeSymbolRendering(numbersArray, ElementStates.Modified, 0);
     }
-    setButtonLoaderRender(false);
+    changeButtonsToDefault(typeOfSort);
   }
 
   return (
@@ -98,6 +127,8 @@ export const SortingPage: React.FC = () => {
               setButtonLoaderRender(true);
               if (radioValue === "selection") {
                 doSelectionSort('ascending');
+              } else {
+                doBubbleSort('ascending');
               }
             }}/>
             <Button text="По убыванию" sorting={Direction.Descending} isLoader={buttonDescLoaderRender}
@@ -107,6 +138,8 @@ export const SortingPage: React.FC = () => {
               setButtonLoaderRender(true);
               if (radioValue === "selection") {
                 doSelectionSort('descending');
+              } else {
+                doBubbleSort('descending');
               }
             }}/>
           </div>
