@@ -10,7 +10,15 @@ export class Node<T = string> {
   }
 }
 
-export type TSymbolArray = Array<{
+export type TSymbol = {
   symbol: string | number,
   status: ElementStates
-}>
+}
+
+export type TSymbolArray = Array<TSymbol>
+
+export type TPropsInputStackQueue = {
+  handlerAdd: () => void,
+  handlerDelete: () => void,
+  handlerClean: () => void
+}

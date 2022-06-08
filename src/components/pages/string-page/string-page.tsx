@@ -67,7 +67,6 @@ export const StringComponent: React.FC = () => {
             <Circle key={index} state={letter.status} symbol={letter.symbol}/>)
         }
       </div>
-
     </SolutionLayout>
   );
 };

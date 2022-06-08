@@ -17,7 +17,6 @@ export const SortingPage: React.FC = () => {
   const [numbersArray, setNumbersArray] = useState<TSymbolArray>([]);
   const [radioValue, setRadioValue] = useState<string>('selection');
 
-
   const [isAscSortButtonDisabled, setIsAscSortButtonDisabled] = useState<boolean>(true);
   const [isDescSortButtonDisabled, setIsDescSortButtonDisabled] = useState<boolean>(true);
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
