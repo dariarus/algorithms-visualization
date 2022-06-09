@@ -1,0 +1,24 @@
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  max-width: 829px;
+  margin: auto;
+}
+
+.inputWrap {
+  display: flex;
+  justify-content: space-between;
+  flex-basis: 75%;
+}
+
+.inputWrap button {
+  margin-left: 12px;
+}
+
+.circleWrap {
+  display: flex;
+  gap: 0 16px;
+  justify-content: center;
+  margin: auto;
+  padding-top: 48px;
+}
