@@ -40,7 +40,8 @@ export const FibonacciPage: React.FC = () => {
             setFibNumberArray([]);
           }
         }}/>
-        <Button text="Раcсчитать" disabled={!number || number > 19} isLoader={buttonLoaderRender} onClick={() => {
+        <Button extraClass={fibonacciPage.calculateButton} text="Расcчитать" disabled={!number || number > 19}
+                isLoader={buttonLoaderRender} onClick={() => {
           setButtonLoaderRender(true);
           changeFibRendering();
         }}/>

@@ -119,7 +119,7 @@ export const SortingPage: React.FC = () => {
             }}/>
           </div>
           <div className={sortingPage.buttonsSortWrapper}>
-            <Button text="По возрвстанию" sorting={Direction.Ascending} isLoader={buttonAscLoaderRender}
+            <Button extraClass={sortingPage.button} text="По возрвстанию" sorting={Direction.Ascending} isLoader={buttonAscLoaderRender}
                     disabled={isAscSortButtonDisabled} onClick={() => {
               setButtonAscLoaderRender(true);
               setIsDescSortButtonDisabled(true);
@@ -130,7 +130,7 @@ export const SortingPage: React.FC = () => {
                 doBubbleSort('ascending');
               }
             }}/>
-            <Button text="По убыванию" sorting={Direction.Descending} isLoader={buttonDescLoaderRender}
+            <Button extraClass={sortingPage.button} text="По убыванию" sorting={Direction.Descending} isLoader={buttonDescLoaderRender}
                     disabled={isDescSortButtonDisabled} onClick={() => {
               setIsAscSortButtonDisabled(true);
               setButtonDescLoaderRender(true);
@@ -143,7 +143,7 @@ export const SortingPage: React.FC = () => {
             }}/>
           </div>
         </div>
-        <Button text="Новый массив" disabled={isButtonDisabled} onClick={() => {
+        <Button extraClass={sortingPage.button} text="Новый массив" disabled={isButtonDisabled} onClick={() => {
           setIsAscSortButtonDisabled(false);
           setIsDescSortButtonDisabled(false);
           let array = generateRandomArray();

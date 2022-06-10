@@ -45,7 +45,7 @@ export const StackPage: React.FC = () => {
                    setIsAddButtonDisabled(false);
                    setInputValue(e.target.value);
                  }}/>
-          <Button text="Добавить" disabled={isAddButtonDisabled} onClick={async () => {
+          <Button extraClass={stackPage.button} text="Добавить" disabled={isAddButtonDisabled} onClick={async () => {
             setInputValue('');
             setIsAddButtonDisabled(true);
             setIsDeleteButtonDisabled(false);
@@ -59,7 +59,7 @@ export const StackPage: React.FC = () => {
               await changeSymbolRendering(stack, ElementStates.Default, stack.container.length - 1, true);
             }
           }}/>
-          <Button text="Удалить" disabled={isDeleteButtonDisabled} onClick={async () => {
+          <Button extraClass={stackPage.button} text="Удалить" disabled={isDeleteButtonDisabled} onClick={async () => {
             if (stack) {
               await changeSymbolRendering(stack, ElementStates.Changing, stack.container.length - 1, false);
               await setRenderingTimer(SHORT_DELAY_IN_MS);

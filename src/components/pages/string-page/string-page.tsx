@@ -55,7 +55,7 @@ export const StringComponent: React.FC = () => {
         <Input maxLength={11} isLimitText onChange={(e: ChangeEvent<HTMLInputElement>) => {
           setInputValue(e.target.value);
         }}/>
-        <Button text="Развернуть" disabled={inputValue === ''} isLoader={buttonLoaderRender} onClick={() => {
+        <Button extraClass={stringPage.button} text="Развернуть" disabled={inputValue === ''} isLoader={buttonLoaderRender} onClick={() => {
           setButtonLoaderRender(true);
           reverseString();
         }}/>
