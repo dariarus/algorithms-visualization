@@ -162,11 +162,14 @@ export const ListPage: React.FC = () => {
                   renderSmallCirclesInPosition("top", i)
                 }
                 {
-                  i === 0
-                    ? <Circle key={i} state={listItems[i].status} symbol={listItems[i].symbol} index={i} head="head"/>
-                    : i === listItems.length - 1
-                      ? <Circle key={i} state={listItems[i].status} symbol={listItems[i].symbol} index={i} tail="tail"/>
-                      : <Circle key={i} state={listItems[i].status} symbol={listItems[i].symbol} index={i}/>
+                  i === 0 && listItems.length === 1
+                    ? <Circle key={i} state={listItems[i].status} symbol={listItems[i].symbol} index={i} head="head"
+                              tail="tail"/>
+                    : i === 0
+                      ? <Circle key={i} state={listItems[i].status} symbol={listItems[i].symbol} index={i} head="head"/>
+                      : i === listItems.length - 1
+                        ? <Circle key={i} state={listItems[i].status} symbol={listItems[i].symbol} index={i} tail="tail"/>
+                        : <Circle key={i} state={listItems[i].status} symbol={listItems[i].symbol} index={i}/>
                 }
                 {
                   isNeedSmallCircleBottom && i === indexToRenderSmallCirclesBottom &&

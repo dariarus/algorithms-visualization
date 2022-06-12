@@ -71,7 +71,7 @@ export const QueuePage: React.FC = () => {
                    setIsAddButtonDisabled(false);
                    setInputValue(e.target.value);
                  }}/>
-          <Button extraClass={queuePage.addButton} text="Добавить" disabled={isAddButtonDisabled} onClick={async () => {
+          <Button extraClass={queuePage.button} text="Добавить" disabled={isAddButtonDisabled} onClick={async () => {
             setInputValue('');
             setIsAddButtonDisabled(true);
             setIsDeleteButtonDisabled(false);
@@ -85,7 +85,7 @@ export const QueuePage: React.FC = () => {
             await changeSymbolRendering(queue, ElementStates.Changing, queue.tail, false);
             await changeSymbolRendering(queue, ElementStates.Default, queue.tail, true);
           }}/>
-          <Button text="Удалить" disabled={isDeleteButtonDisabled} onClick={async () => {
+          <Button extraClass={queuePage.button} text="Удалить" disabled={isDeleteButtonDisabled} onClick={async () => {
             await changeSymbolRendering(queue, ElementStates.Changing, queue.head, false);
             await changeSymbolRendering(queue, ElementStates.Default, queue.head, true);
 
