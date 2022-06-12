@@ -59,7 +59,7 @@ export const ListPage: React.FC = () => {
     }, [list])
 
     const changeSymbolStatus = (arr: TSymbolArray, status: ElementStates, index: number) => {
-      if (index >= arr.length) {
+      if (index < 0 || index >= arr.length) {
         return;
       }
       if (status) {
@@ -391,10 +391,14 @@ export const ListPage: React.FC = () => {
             await changeEachSymbolRendering(getArray(list.toArray()), index);
             await changeCircleToEmpty(getArray(list.toArray()), index, true, true);
 
-            list.deleteByIndex(parseInt(inputIndexValue));
+            if (index === 0) {
+              list.deleteHead();
+            } else {
+              list.deleteByIndex(index);
+            }
 
             setIsNeedSmallCircleBottom(false);
-
+            await changeCircleToEmpty(getArray(list.toArray()), index, false, false);
 
             setDeleteByIndexButtonLoader(false);
             setIsInputValueDisabled(false);
@@ -405,8 +409,6 @@ export const ListPage: React.FC = () => {
             setIsDeleteHeadButtonDisabled(false);
             setIsDeleteTailButtonDisabled(false);
             setIsAddByIndexButtonDisabled(false);
-
-            await changeCircleToEmpty(getArray(list.toArray()), index, false, false);
           }}/>
         </div>
         <div className={listPage.circleWrap}>
