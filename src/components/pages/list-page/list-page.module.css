@@ -1,6 +1,6 @@
 .grid {
   display: grid;
-  grid: repeat(auto-fill, 1fr) / repeat(5, auto);
+  grid: repeat(auto-fit, 1fr) / repeat(5, auto);
   grid-gap: 12px 10px;
   grid-auto-rows: 100px;
   justify-items: start;
@@ -17,4 +17,29 @@
 .bigDeleteButton {
   grid-column-start: 4;
   grid-column-end: 6;
+}
+
+.smallCircleWrapTop {
+  position: absolute;
+  bottom: 88px;
+  left: 12px;
+}
+
+.smallCircleWrapBottom {
+  position: absolute;
+  top: 118px;
+  left: 12px;
+}
+
+.circleWrap {
+  display: flex;
+  gap: 0 16px;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  padding-top: 90px;
+}
+
+.circles {
+  position: relative;
 }
