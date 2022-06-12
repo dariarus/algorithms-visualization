@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 
 import listPage from "./list-page.module.css";
 
@@ -8,7 +8,12 @@ import {Button} from "../../ui/button/button";
 import {Circle} from "../../ui/circle/circle";
 import {LinkedList} from "../../utils/linked-list-class";
 import {TSymbolArray} from "../../../types";
-import {getArray, setRenderingTimer} from "../../utils/utils";
+import {generateRandomArray, getArray, setRenderingTimer} from "../../utils/utils";
+import {
+  listMaxLength,
+  listMaxValue,
+  listMinLength, listMinValue
+} from "../../../constants/random-array";
 import {ArrowIcon} from "../../ui/icons/arrow-icon";
 import {ElementStates} from "../../../types/element-states";
 import {DELAY_IN_MS} from "../../../constants/delays";
@@ -17,8 +22,8 @@ export const ListPage: React.FC = () => {
     const [inputSymbolValue, setInputSymbolValue] = useState<string>('');
     const [inputIndexValue, setIndexSymbolValue] = useState<string>('');
 
-    const [list] = useState<LinkedList<any>>(new LinkedList().append(1).append(2).append(3).append(4));
-    const [listItems, setListItems] = useState<TSymbolArray>(getArray(list.toArray()));
+    const [list] = useState<LinkedList<any>>(new LinkedList());
+    const [listItems, setListItems] = useState<TSymbolArray>([]);
 
     const [isNeedSmallCircleTop, setIsNeedSmallCircleTop] = useState<boolean>(false);
     const [isNeedSmallCircleBottom, setIsNeedSmallCircleBottom] = useState<boolean>(false);
@@ -44,6 +49,14 @@ export const ListPage: React.FC = () => {
     const [addByIndexButtonLoader, setAddByIndexButtonLoader] = useState<boolean>(false);
     const [isDeleteByIndexButtonDisabled, setIsDeleteByIndexButtonDisabled] = useState<boolean>(true);
     const [deleteByIndexButtonLoader, setDeleteByIndexButtonLoader] = useState<boolean>(false);
+
+    useEffect(() => {
+      let randomArray = generateRandomArray(listMaxLength, listMinLength, listMaxValue, listMinValue);
+      for (let i = 0; i < randomArray.length; i++) {
+        list.append(randomArray[i]);
+      }
+      setListItems(getArray(randomArray));
+    }, [list])
 
     const changeSymbolStatus = (arr: TSymbolArray, status: ElementStates, index: number) => {
       if (index >= arr.length) {
@@ -324,7 +337,7 @@ export const ListPage: React.FC = () => {
                   disabled={isAddByIndexButtonDisabled} onClick={async () => {
             let index = parseInt(inputIndexValue);
 
-            if (index >=0 && index <= list.toArray().length - 1) {
+            if (index >= 0 && index <= list.toArray().length - 1) {
               setAddByIndexButtonLoader(true);
               setIsInputValueDisabled(true);
               setIsInputIndexDisabled(true);
@@ -358,7 +371,7 @@ export const ListPage: React.FC = () => {
                   isLoader={deleteByIndexButtonLoader} disabled={isDeleteByIndexButtonDisabled} onClick={async () => {
             let index = parseInt(inputIndexValue);
 
-            if (index >=0 && index <= list.toArray().length - 1) {
+            if (index >= 0 && index <= list.toArray().length - 1) {
               setDeleteByIndexButtonLoader(true);
               setIsInputValueDisabled(true);
               setIsInputIndexDisabled(true);

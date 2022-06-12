@@ -23,3 +23,8 @@ export const getArray = (arr: Array<string | number>) => {
       }
     })
 }
+
+export const generateRandomArray = (maxLength: number, minLength: number, maxValue: number, minValue: number) => {
+  const randomArrayLength = Math.random() * (maxLength - minLength) + minLength;
+  return Array.from({length: randomArrayLength}).map(x => Math.floor(Math.random() * (maxValue - minValue) + minValue))
+}

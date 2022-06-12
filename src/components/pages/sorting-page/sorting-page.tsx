@@ -6,10 +6,14 @@ import {SolutionLayout} from "../../ui/solution-layout/solution-layout";
 import {RadioInput} from "../../ui/radio-input/radio-input";
 import {Button} from "../../ui/button/button";
 import {Direction} from "../../../types/direction";
-import {maxLength, maxValue, minLength, minValue} from "../../../constants/random-array";
+import {
+  sortMaxLength,
+  sortMaxValue,
+  sortMinLength, sortMinValue
+} from "../../../constants/random-array";
 import {Column} from "../../ui/column/column";
 import {ElementStates} from "../../../types/element-states";
-import {getArray, setRenderingTimer, swap} from "../../utils/utils";
+import {generateRandomArray, getArray, setRenderingTimer, swap} from "../../utils/utils";
 import {TSymbolArray} from "../../../types";
 import {SHORT_DELAY_IN_MS} from "../../../constants/delays";
 
@@ -22,11 +26,6 @@ export const SortingPage: React.FC = () => {
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
   const [buttonAscLoaderRender, setButtonAscLoaderRender] = useState<boolean>(false);
   const [buttonDescLoaderRender, setButtonDescLoaderRender] = useState<boolean>(false);
-
-  const generateRandomArray = () => {
-    const randomArrayLength = Math.random() * (maxLength - minLength) + minLength;
-    return Array.from({length: randomArrayLength}).map(x => Math.floor(Math.random() * (maxValue - minValue) + minValue))
-  }
 
   const changeButtonsToDefault = (typeOfSort: string) => {
     if (typeOfSort === 'ascending') {
@@ -146,7 +145,7 @@ export const SortingPage: React.FC = () => {
         <Button extraClass={sortingPage.button} text="Новый массив" disabled={isButtonDisabled} onClick={() => {
           setIsAscSortButtonDisabled(false);
           setIsDescSortButtonDisabled(false);
-          let array = generateRandomArray();
+          let array = generateRandomArray(sortMaxLength, sortMinLength, sortMaxValue, sortMinValue);
           let numArr = getArray(array);
           setNumbersArray(numArr);
         }}/>
