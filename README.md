@@ -6,4 +6,4 @@
 
 ## *Используемые технологии*: React, JSX, flexbox, grid layout, JavaScript, Webpack, API
 
-## *Ссылка на проектный сайт на GitHub Pages*: [#](#)
+## *Ссылка на проектный сайт на GitHub Pages*: [Algorithms Visualisation](https://dariarus.github.io/algorithms/)
