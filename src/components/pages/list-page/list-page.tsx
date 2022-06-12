@@ -207,7 +207,7 @@ export const ListPage: React.FC = () => {
             setIsDeleteHeadButtonDisabled(true);
             setIsDeleteTailButtonDisabled(true);
             setIsAddByIndexButtonDisabled(true);
-            setDeleteByIndexButtonLoader(true);
+            setIsDeleteByIndexButtonDisabled(true);
 
             setIndexToRenderSmallCirclesTop(0);
             await setIsSmallCircleRender("top");
