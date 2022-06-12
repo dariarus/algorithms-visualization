@@ -1,29 +1,29 @@
 {
   "files": {
-    "main.css": "/algorithms-visualisation/static/css/main.63f88ecf.css",
-    "main.js": "/algorithms-visualisation/static/js/main.5499dffe.js",
-    "static/js/787.0d1937ff.chunk.js": "/algorithms-visualisation/static/js/787.0d1937ff.chunk.js",
-    "static/media/bg.jpg": "/algorithms-visualisation/static/media/bg.971318c52485d1963a30.jpg",
-    "static/media/arr-hover.svg": "/algorithms-visualisation/static/media/arr-hover.b8bf27c9f429cdb6bf49.svg",
-    "static/media/arr.svg": "/algorithms-visualisation/static/media/arr.033dfcca0644ae48cdfd.svg",
-    "static/media/fibonacci-hover.svg": "/algorithms-visualisation/static/media/fibonacci-hover.f2da03c7aa2b5b6303f5.svg",
-    "static/media/fibonacci.svg": "/algorithms-visualisation/static/media/fibonacci.3e6192e1fdd4fb3de79a.svg",
-    "static/media/list-hover.svg": "/algorithms-visualisation/static/media/list-hover.1564c61956d87040c0fe.svg",
-    "static/media/list.svg": "/algorithms-visualisation/static/media/list.6e27d4f81a5b6501c5a9.svg",
-    "static/media/queue-hover.svg": "/algorithms-visualisation/static/media/queue-hover.cabfc138dc782ae26a58.svg",
-    "static/media/queue.svg": "/algorithms-visualisation/static/media/queue.1a8da4ee8f1ea9ea4bc7.svg",
-    "static/media/stack-hover.svg": "/algorithms-visualisation/static/media/stack-hover.c4e48c64d59ade2a4335.svg",
-    "static/media/stack.svg": "/algorithms-visualisation/static/media/stack.e4cda485bf4ea165aa03.svg",
-    "static/media/string-hover.svg": "/algorithms-visualisation/static/media/string-hover.0fce6be749ff30cd9870.svg",
-    "static/media/string.svg": "/algorithms-visualisation/static/media/string.9ac3d2b41d03486b4823.svg",
-    "index.html": "/algorithms-visualisation/index.html",
-    "static/media/loader.svg": "/algorithms-visualisation/static/media/loader.3560c7ba1c44b9900cfc03ff6ddbe067.svg",
-    "main.63f88ecf.css.map": "/algorithms-visualisation/static/css/main.63f88ecf.css.map",
-    "main.5499dffe.js.map": "/algorithms-visualisation/static/js/main.5499dffe.js.map",
-    "787.0d1937ff.chunk.js.map": "/algorithms-visualisation/static/js/787.0d1937ff.chunk.js.map"
+    "main.css": "./static/css/main.87265f73.css",
+    "main.js": "./static/js/main.f1481639.js",
+    "static/js/787.0d1937ff.chunk.js": "./static/js/787.0d1937ff.chunk.js",
+    "static/media/bg.jpg": "./static/media/bg.971318c52485d1963a30.jpg",
+    "static/media/arr-hover.svg": "./static/media/arr-hover.b8bf27c9f429cdb6bf49.svg",
+    "static/media/arr.svg": "./static/media/arr.033dfcca0644ae48cdfd.svg",
+    "static/media/fibonacci-hover.svg": "./static/media/fibonacci-hover.f2da03c7aa2b5b6303f5.svg",
+    "static/media/fibonacci.svg": "./static/media/fibonacci.3e6192e1fdd4fb3de79a.svg",
+    "static/media/list-hover.svg": "./static/media/list-hover.1564c61956d87040c0fe.svg",
+    "static/media/list.svg": "./static/media/list.6e27d4f81a5b6501c5a9.svg",
+    "static/media/queue-hover.svg": "./static/media/queue-hover.cabfc138dc782ae26a58.svg",
+    "static/media/queue.svg": "./static/media/queue.1a8da4ee8f1ea9ea4bc7.svg",
+    "static/media/stack-hover.svg": "./static/media/stack-hover.c4e48c64d59ade2a4335.svg",
+    "static/media/stack.svg": "./static/media/stack.e4cda485bf4ea165aa03.svg",
+    "static/media/string-hover.svg": "./static/media/string-hover.0fce6be749ff30cd9870.svg",
+    "static/media/string.svg": "./static/media/string.9ac3d2b41d03486b4823.svg",
+    "index.html": "./index.html",
+    "static/media/loader.svg": "./static/media/loader.3560c7ba1c44b9900cfc03ff6ddbe067.svg",
+    "main.87265f73.css.map": "./static/css/main.87265f73.css.map",
+    "main.f1481639.js.map": "./static/js/main.f1481639.js.map",
+    "787.0d1937ff.chunk.js.map": "./static/js/787.0d1937ff.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.63f88ecf.css",
-    "static/js/main.5499dffe.js"
+    "static/css/main.87265f73.css",
+    "static/js/main.f1481639.js"
   ]
 }
