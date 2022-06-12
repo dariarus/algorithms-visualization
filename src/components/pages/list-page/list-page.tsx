@@ -18,7 +18,6 @@ export const ListPage: React.FC = () => {
     const [inputIndexValue, setIndexSymbolValue] = useState<string>('');
 
     const [list] = useState<LinkedList<any>>(new LinkedList().append(1).append(2).append(3).append(4));
-
     const [listItems, setListItems] = useState<TSymbolArray>(getArray(list.toArray()));
 
     const [isNeedSmallCircleTop, setIsNeedSmallCircleTop] = useState<boolean>(false);
@@ -26,9 +25,27 @@ export const ListPage: React.FC = () => {
     const [indexToRenderSmallCirclesTop, setIndexToRenderSmallCirclesTop] = useState<number>(0);
     const [indexToRenderSmallCirclesBottom, setIndexToRenderSmallCirclesBottom] = useState<number>(0);
 
-    const [symbolFolSmallCircle, setSymbolFolSmallCircle] = useState<any>()
+    const [symbolFolSmallCircle, setSymbolFolSmallCircle] = useState<any>();
 
-    const changeSymbolStatus = (arr: TSymbolArray, status: ElementStates, index: number, isEmptyCircle?: boolean) => {
+    const [isInputValueDisabled, setIsInputValueDisabled] = useState<boolean>(false);
+    const [isInputIndexDisabled, setIsInputIndexDisabled] = useState<boolean>(false);
+
+    const [isAddHeadButtonDisabled, setIsAddHeadButtonDisabled] = useState<boolean>(true);
+    const [addHeadButtonLoader, setAddHeadButtonLoader] = useState<boolean>(false);
+    const [isAddTailButtonDisabled, setIsAddTailButtonDisabled] = useState<boolean>(true);
+    const [addTailButtonLoader, setAddTailButtonLoader] = useState<boolean>(false);
+
+    const [isDeleteHeadButtonDisabled, setIsDeleteHeadButtonDisabled] = useState<boolean>(false);
+    const [deleteHeadButtonLoader, setDeleteHeadButtonLoader] = useState<boolean>(false);
+    const [isDeleteTailButtonDisabled, setIsDeleteTailButtonDisabled] = useState<boolean>(false);
+    const [deleteTailButtonLoader, setDeleteTailButtonLoader] = useState<boolean>(false);
+
+    const [isAddByIndexButtonDisabled, setIsAddByIndexButtonDisabled] = useState<boolean>(true);
+    const [addByIndexButtonLoader, setAddByIndexButtonLoader] = useState<boolean>(false);
+    const [isDeleteByIndexButtonDisabled, setIsDeleteByIndexButtonDisabled] = useState<boolean>(true);
+    const [deleteByIndexButtonLoader, setDeleteByIndexButtonLoader] = useState<boolean>(false);
+
+    const changeSymbolStatus = (arr: TSymbolArray, status: ElementStates, index: number) => {
       if (index >= arr.length) {
         return;
       }
@@ -55,8 +72,7 @@ export const ListPage: React.FC = () => {
     }
 
     const changeCircleToEmpty = async (arr: TSymbolArray, index: number, isEmptyCircle: boolean, isAsync: boolean) => {
-      await renderSmallCircleForDeleteItem(arr, index, isEmptyCircle)
-
+      await renderSmallCircleForDeleteItem(arr, index, isEmptyCircle);
       if (isAsync) {
         await setRenderingTimer(DELAY_IN_MS);
       }
@@ -104,13 +120,15 @@ export const ListPage: React.FC = () => {
             position === "top"
               ? <div className={listPage.smallCircleWrapTop}>
                 {
-                  <Circle key={`smallCircleTop: ${keyInd}`} state={ElementStates.Changing} symbol={inputSymbolValue}
+                  <Circle extraClass={listPage.smallCircles} key={`smallCircleTop: ${keyInd}`}
+                          state={ElementStates.Changing} symbol={inputSymbolValue}
                           isSmall={true}/>
                 }
               </div>
               : <div className={listPage.smallCircleWrapBottom}>
                 {
-                  <Circle key={`smallCircleBottom: ${keyInd}`} state={ElementStates.Changing} symbol={symbol}
+                  <Circle extraClass={listPage.smallCircles} key={`smallCircleBottom: ${keyInd}`}
+                          state={ElementStates.Changing} symbol={symbol}
                           isSmall={true}/>
                 }
               </div>
@@ -118,7 +136,6 @@ export const ListPage: React.FC = () => {
         </>
       )
     }
-
 
     const renderCircles = () => {
       let circlesContainer: Array<any> = [];
@@ -132,8 +149,11 @@ export const ListPage: React.FC = () => {
                   renderSmallCirclesInPosition("top", i)
                 }
                 {
-                  <Circle key={i} state={listItems[i].status} symbol={listItems[i].symbol} index={i}
-                  />
+                  i === 0
+                    ? <Circle key={i} state={listItems[i].status} symbol={listItems[i].symbol} index={i} head="head"/>
+                    : i === listItems.length - 1
+                      ? <Circle key={i} state={listItems[i].status} symbol={listItems[i].symbol} index={i} tail="tail"/>
+                      : <Circle key={i} state={listItems[i].status} symbol={listItems[i].symbol} index={i}/>
                 }
                 {
                   isNeedSmallCircleBottom && i === indexToRenderSmallCirclesBottom &&
@@ -155,22 +175,58 @@ export const ListPage: React.FC = () => {
       <SolutionLayout title="Связный список">
         <div className={listPage.grid}>
           <Input placeholder="Введите значение" value={inputSymbolValue} maxLength={4} isLimitText={true}
+                 disabled={isInputValueDisabled}
                  onChange={(e: ChangeEvent<HTMLInputElement>) => {
                    e.preventDefault();
                    setInputSymbolValue(e.target.value);
+
+                   setIsAddHeadButtonDisabled(false);
+                   setIsAddTailButtonDisabled(false);
                  }}/>
 
-          <Button text="Добавить в head" linkedList="small" onClick={async () => {
+          <Button text="Добавить в head" linkedList="small" isLoader={addHeadButtonLoader}
+                  disabled={isAddHeadButtonDisabled} onClick={async () => {
+            setAddHeadButtonLoader(true);
+            setIsInputValueDisabled(true);
+            setIsInputIndexDisabled(true);
+
+            setIsAddTailButtonDisabled(true);
+            setIsDeleteHeadButtonDisabled(true);
+            setIsDeleteTailButtonDisabled(true);
+            setIsAddByIndexButtonDisabled(true);
+            setDeleteByIndexButtonLoader(true);
+
             setIndexToRenderSmallCirclesTop(0);
             await setIsSmallCircleRender("top");
 
             list.prepend(inputSymbolValue);
 
-            await changeSymbolRendering(getArray(list.toArray()), ElementStates.Modified, 0, false)
-            await changeSymbolRendering(getArray(list.toArray()), ElementStates.Default, 0, true)
+            await changeSymbolRendering(getArray(list.toArray()), ElementStates.Modified, 0, false);
+            await changeSymbolRendering(getArray(list.toArray()), ElementStates.Default, 0, true);
+
+            setAddHeadButtonLoader(false);
+            setIsInputValueDisabled(false);
+            setIsInputIndexDisabled(false);
+
+            setIsAddTailButtonDisabled(false);
+            setIsDeleteHeadButtonDisabled(false);
+            setIsDeleteTailButtonDisabled(false);
+            setIsAddByIndexButtonDisabled(false);
+            setDeleteByIndexButtonLoader(false);
           }}/>
 
-          <Button text="Добавить в tail" linkedList="small" onClick={async () => {
+          <Button text="Добавить в tail" linkedList="small" isLoader={addTailButtonLoader}
+                  disabled={isAddTailButtonDisabled} onClick={async () => {
+            setAddTailButtonLoader(true);
+            setIsInputValueDisabled(true);
+            setIsInputIndexDisabled(true);
+
+            setIsAddHeadButtonDisabled(true);
+            setIsDeleteHeadButtonDisabled(true);
+            setIsDeleteTailButtonDisabled(true);
+            setIsAddByIndexButtonDisabled(true);
+            setIsDeleteByIndexButtonDisabled(true);
+
             setIndexToRenderSmallCirclesTop(list.toArray().length - 1);
             await setIsSmallCircleRender("top");
 
@@ -178,9 +234,30 @@ export const ListPage: React.FC = () => {
 
             await changeSymbolRendering(getArray(list.toArray()), ElementStates.Modified, list.toArray().length - 1, false);
             await changeSymbolRendering(getArray(list.toArray()), ElementStates.Default, list.toArray().length - 1, true);
+
+            setAddTailButtonLoader(false);
+            setIsInputValueDisabled(false);
+            setIsInputIndexDisabled(false);
+
+            setIsAddHeadButtonDisabled(false);
+            setIsDeleteHeadButtonDisabled(false);
+            setIsDeleteTailButtonDisabled(false);
+            setIsAddByIndexButtonDisabled(false);
+            setIsDeleteByIndexButtonDisabled(false);
           }}/>
 
-          <Button text="Удалить из head" linkedList="small" onClick={async () => {
+          <Button text="Удалить из head" linkedList="small" isLoader={deleteHeadButtonLoader}
+                  disabled={isDeleteHeadButtonDisabled} onClick={async () => {
+            setDeleteHeadButtonLoader(true);
+            setIsInputValueDisabled(true);
+            setIsInputIndexDisabled(true);
+
+            setIsAddHeadButtonDisabled(true);
+            setIsAddTailButtonDisabled(true);
+            setIsDeleteTailButtonDisabled(true);
+            setIsAddByIndexButtonDisabled(true);
+            setIsDeleteByIndexButtonDisabled(true);
+
             setIndexToRenderSmallCirclesBottom(0);
             await changeCircleToEmpty(getArray(list.toArray()), 0, true, true);
 
@@ -188,9 +265,30 @@ export const ListPage: React.FC = () => {
 
             setIsNeedSmallCircleBottom(false);
             await changeCircleToEmpty(getArray(list.toArray()), 0, false, false);
+
+            setDeleteHeadButtonLoader(false);
+            setIsInputValueDisabled(false);
+            setIsInputIndexDisabled(false);
+
+            setIsAddHeadButtonDisabled(false);
+            setIsAddTailButtonDisabled(false);
+            setIsDeleteTailButtonDisabled(false);
+            setIsAddByIndexButtonDisabled(false);
+            setIsDeleteByIndexButtonDisabled(false);
           }}/>
 
-          <Button text="Удалить из tail" linkedList="small" onClick={async () => {
+          <Button text="Удалить из tail" linkedList="small" isLoader={deleteTailButtonLoader}
+                  disabled={isDeleteTailButtonDisabled} onClick={async () => {
+            setDeleteTailButtonLoader(true);
+            setIsInputValueDisabled(true);
+            setIsInputIndexDisabled(true);
+
+            setIsAddHeadButtonDisabled(true);
+            setIsAddTailButtonDisabled(true);
+            setIsDeleteHeadButtonDisabled(true);
+            setIsAddByIndexButtonDisabled(true);
+            setIsDeleteByIndexButtonDisabled(true);
+
             setIndexToRenderSmallCirclesBottom(list.toArray().length - 1);
             await changeCircleToEmpty(getArray(list.toArray()), list.toArray().length - 1, true, true);
 
@@ -198,28 +296,79 @@ export const ListPage: React.FC = () => {
 
             setIsNeedSmallCircleBottom(false);
             await changeCircleToEmpty(getArray(list.toArray()), list.toArray().length - 1, false, false);
+
+            setDeleteTailButtonLoader(false);
+            setIsInputValueDisabled(false);
+            setIsInputIndexDisabled(false);
+
+            setIsAddHeadButtonDisabled(false);
+            setIsAddTailButtonDisabled(false);
+            setIsDeleteHeadButtonDisabled(false);
+            setIsAddByIndexButtonDisabled(false);
+            setIsDeleteByIndexButtonDisabled(false);
           }}/>
 
-          <Input type="number" placeholder="Введите индекс" value={inputIndexValue}
+          <Input type="number" placeholder="Введите индекс" value={inputIndexValue} disabled={isInputIndexDisabled}
                  onChange={(e: ChangeEvent<HTMLInputElement>) => {
                    e.preventDefault();
                    setIndexSymbolValue(e.target.value);
+
+                   if (!isInputValueDisabled) {
+                     setIsAddByIndexButtonDisabled(false);
+                   }
+                   setIsDeleteByIndexButtonDisabled(false);
                  }}/>
 
-          <Button extraClass={listPage.bigAddButton} text="Добавить по индексу" linkedList="big" onClick={async () => {
+          <Button extraClass={listPage.bigAddButton} text="Добавить по индексу" linkedList="big"
+                  isLoader={addByIndexButtonLoader}
+                  disabled={isAddByIndexButtonDisabled} onClick={async () => {
             let index = parseInt(inputIndexValue);
+
+            if (index >=0 && index <= list.toArray().length - 1) {
+              setAddByIndexButtonLoader(true);
+              setIsInputValueDisabled(true);
+              setIsInputIndexDisabled(true);
+
+              setIsAddHeadButtonDisabled(true);
+              setIsAddTailButtonDisabled(true);
+              setIsDeleteHeadButtonDisabled(true);
+              setIsDeleteTailButtonDisabled(true);
+              setIsDeleteByIndexButtonDisabled(true);
+            }
 
             await changeEachSmallCircleRendering(getArray(list.toArray()), index);
 
             list.addByIndex(inputSymbolValue, parseInt(inputIndexValue));
 
-            setListItems(getArray(list.toArray()))
             await changeSymbolRendering(getArray(list.toArray()), ElementStates.Modified, index, false);
             await changeSymbolRendering(getArray(list.toArray()), ElementStates.Default, index, true);
+
+            setAddByIndexButtonLoader(false);
+            setIsInputValueDisabled(false);
+            setIsInputIndexDisabled(false);
+
+            setIsAddHeadButtonDisabled(false);
+            setIsAddTailButtonDisabled(false);
+            setIsDeleteHeadButtonDisabled(false);
+            setIsDeleteTailButtonDisabled(false);
+            setIsDeleteByIndexButtonDisabled(false);
           }}/>
 
-          <Button extraClass={listPage.bigDeleteButton} text="Удалить по индексу" linkedList="big" onClick={async () => {
+          <Button extraClass={listPage.bigDeleteButton} text="Удалить по индексу" linkedList="big"
+                  isLoader={deleteByIndexButtonLoader} disabled={isDeleteByIndexButtonDisabled} onClick={async () => {
             let index = parseInt(inputIndexValue);
+
+            if (index >=0 && index <= list.toArray().length - 1) {
+              setDeleteByIndexButtonLoader(true);
+              setIsInputValueDisabled(true);
+              setIsInputIndexDisabled(true);
+
+              setIsAddHeadButtonDisabled(true);
+              setIsAddTailButtonDisabled(true);
+              setIsDeleteHeadButtonDisabled(true);
+              setIsDeleteTailButtonDisabled(true);
+              setIsAddByIndexButtonDisabled(true);
+            }
 
             setIndexToRenderSmallCirclesBottom(index);
 
@@ -229,6 +378,18 @@ export const ListPage: React.FC = () => {
             list.deleteByIndex(parseInt(inputIndexValue));
 
             setIsNeedSmallCircleBottom(false);
+
+
+            setDeleteByIndexButtonLoader(false);
+            setIsInputValueDisabled(false);
+            setIsInputIndexDisabled(false);
+
+            setIsAddHeadButtonDisabled(false);
+            setIsAddTailButtonDisabled(false);
+            setIsDeleteHeadButtonDisabled(false);
+            setIsDeleteTailButtonDisabled(false);
+            setIsAddByIndexButtonDisabled(false);
+
             await changeCircleToEmpty(getArray(list.toArray()), index, false, false);
           }}/>
         </div>

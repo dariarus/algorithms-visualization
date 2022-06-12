@@ -31,6 +31,11 @@
   left: 12px;
 }
 
+.smallCircles {
+  z-index: 10;
+  background-color: #fff;
+}
+
 .circleWrap {
   display: flex;
   gap: 0 16px;
