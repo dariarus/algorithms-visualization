@@ -2,18 +2,46 @@ interface IQueue<T> {
   enqueue: (item: T) => void;
   dequeue: () => void;
   peak: () => T | null;
+
+  head: { value: T | null, index: number };
+  tail: { value: T | null, index: number };
+  elements: Array<T | null>;
+
+  isEmpty: boolean;
 }
 
 export class Queue<T> implements IQueue<T> {
-  container: Array<T | null>;
-  head = 0;
-  tail = 0;
+  private container: Array<T | null>;
+  private _head: number = 0;
+  private _tail: number = 0;
   private readonly size: number = 0;
   length: number = 0;
 
   constructor(size: number) {
     this.size = size;
     this.container = new Array(size);
+  }
+
+  get isEmpty() {
+    return this.length === 0
+  }
+
+  get elements() {
+    return this.container
+  }
+
+  get head() {
+    return ({
+      value: this.container[this._head],
+      index: this._head
+    })
+  }
+
+  get tail() {
+    return {
+      value: this.container[this._tail],
+      index: this._tail
+    }
   }
 
   enqueue = (item: T) => {
@@ -26,49 +54,41 @@ export class Queue<T> implements IQueue<T> {
     Очень полезно для выяснения текущего положения указателя после запуска алгоритма n раз!
     Вместо этой операции проверяем tail === size и сбрасываем tail -----*/
 
-    if (this.tail === this.size - 1 || (this.length === 0 && this.tail === this.head)) {
-      this.tail = 0; // обнуляем хвост, если очередь заполнена и если изначально не было head
+    if (this._tail === this.size - 1 || (this.length === 0 && this._tail === this._head)) {
+      this._tail = 0; // обнуляем хвост, если очередь заполнена и если изначально не было head
     } else {
-      this.tail++;
+      this._tail++;
     }
-      this.container[this.tail] = item;
-      this.length++;
-
-    // console.log("tail..." + this.tail)
-    // console.log("length..." + this.length)
+    this.container[this._tail] = item;
+    this.length++;
   };
 
   dequeue = () => {
-    if (this.isEmpty()) {
+    if (this.isEmpty) {
       throw new Error("No elements in the queue");
     }
-    this.container[this.head] = null;
+    this.container[this._head] = null;
     this.length--;
-    if (this.head === this.size - 1) {
-      this.head = 0; // обнуляем голову, если очередь заполнена
+    if (this._head === this.size - 1) {
+      this._head = 0; // обнуляем голову, если очередь заполнена
     } else {
-      this.head++;
+      this._head++;
     }
-
-    // console.log("head..." + this.head);
-    // console.log("lengthhhh..." + this.length)
   };
 
   peak = (): T | null => {
-    if (this.isEmpty()) {
+    if (this.isEmpty) {
       throw new Error("No elements in the queue");
     } else {
-      return this.container[this.head]
+      return this.container[this._head]
     }
     // return null;
   };
 
   clean = (): void => {
     this.container = Array(this.size);
-    this.head = 0;
-    this.tail = 0;
+    this._head = 0;
+    this._tail = 0;
     this.length = 0;
   }
-
-  isEmpty = () => this.length === 0;
 }

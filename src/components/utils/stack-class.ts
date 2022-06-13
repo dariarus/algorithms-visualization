@@ -3,13 +3,24 @@ export interface IStack<T> {
   pop: () => void;
   peak: () => T | null;
   clean: () => void;
+
+  elements: Array<T>;
+  size: number;
 }
 
 export class Stack<T> implements IStack<T> {
-  container: T[] = [];
+  private container: Array<T> = [];
   private last: T | null | undefined;
   constructor() {
     this.last = null;
+  }
+
+  get elements() {
+    return this.container;
+  }
+
+  get size() {
+    return this.container.length;
   }
 
   push = (item: T): void => {

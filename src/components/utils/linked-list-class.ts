@@ -1,10 +1,8 @@
-import {ElementStates} from "../../types/element-states";
-
-export class Node<T> {
+export class LinkedListNode<T> {
   value: T
-  next: Node<T> | null
+  next: LinkedListNode<T> | null
 
-  constructor(value: T, next?: Node<T> | null) {
+  constructor(value: T, next?: LinkedListNode<T> | null) {
     this.value = value;
     this.next = (next === undefined ? null : next);
   }
@@ -22,7 +20,7 @@ interface ILinkedList<T> {
 }
 
 export class LinkedList<T> implements ILinkedList<T> {
-  head: Node<T> | null;
+  head: LinkedListNode<T> | null;
   size: number;
 
   constructor() {
@@ -50,7 +48,7 @@ export class LinkedList<T> implements ILinkedList<T> {
 
   // добавить в голову
   prepend(element: T) {
-    const node = new Node(element);
+    const node = new LinkedListNode(element);
     node.next = this.head;
     this.head = node;
     this.size++;
@@ -74,7 +72,7 @@ export class LinkedList<T> implements ILinkedList<T> {
 
   // добавить элемент в конец списка
   append(element: T) {
-    const node = new Node(element);
+    const node = new LinkedListNode(element);
     let current;
 
     if (this.head === null) {
@@ -118,7 +116,7 @@ export class LinkedList<T> implements ILinkedList<T> {
       console.log('Enter a valid index');
       return;
     } else {
-      const node = new Node(element);
+      const node = new LinkedListNode(element);
       // добавить элемент в начало списка
       if (index === 0) {
         this.prepend(element);

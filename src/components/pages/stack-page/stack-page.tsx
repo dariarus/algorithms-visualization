@@ -15,7 +15,7 @@ import {SHORT_DELAY_IN_MS} from "../../../constants/delays";
 export const StackPage: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>('');
   const [stack] = useState<Stack<TSymbol>>(new Stack<TSymbol>());
-  const [stackContainer, setStackContainer] = useState<TSymbolArray>(stack.container);
+  const [stackContainer, setStackContainer] = useState<TSymbolArray>(stack.elements);
 
   const [isAddButtonDisabled, setIsAddButtonDisabled] = useState<boolean>(true);
   const [isDeleteButtonDisabled, setIsDeleteButtonDisabled] = useState<boolean>(true);
@@ -23,7 +23,7 @@ export const StackPage: React.FC = () => {
 
   const changeSymbolStatus = (stack: Stack<TSymbol>, status: ElementStates, index: number) => {
     if (stack) {
-      stack.container[index].status = status;
+      stack.elements[index].status = status;
     }
   }
 
@@ -32,7 +32,7 @@ export const StackPage: React.FC = () => {
       await setRenderingTimer(SHORT_DELAY_IN_MS);
     }
     changeSymbolStatus(stack, status, currIndex);
-    setStackContainer([...stack.container]);
+    setStackContainer([...stack.elements]);
   }
 
   return (
@@ -55,17 +55,17 @@ export const StackPage: React.FC = () => {
                 symbol: inputValue,
                 status: ElementStates.Default
               });
-              await changeSymbolRendering(stack, ElementStates.Changing, stack.container.length - 1, false);
-              await changeSymbolRendering(stack, ElementStates.Default, stack.container.length - 1, true);
+              await changeSymbolRendering(stack, ElementStates.Changing, stack.size - 1, false);
+              await changeSymbolRendering(stack, ElementStates.Default, stack.size - 1, true);
             }
           }}/>
           <Button extraClass={stackPage.button} text="Удалить" disabled={isDeleteButtonDisabled} onClick={async () => {
             if (stack) {
-              await changeSymbolRendering(stack, ElementStates.Changing, stack.container.length - 1, false);
+              await changeSymbolRendering(stack, ElementStates.Changing, stack.size - 1, false);
               await setRenderingTimer(SHORT_DELAY_IN_MS);
               stack?.pop();
-              setStackContainer(stack.container);
-              if (stack.container.length < 1) {
+              setStackContainer(stack.elements);
+              if (stack.size < 1) {
                 setIsDeleteButtonDisabled(true);
                 setIsCleanButtonDisabled(true);
               }
@@ -74,7 +74,7 @@ export const StackPage: React.FC = () => {
         </div>
         <Button text="Очистить" disabled={isCleanButtonDisabled} onClick={() => {
           stack?.clean();
-          setStackContainer(stack.container);
+          setStackContainer(stack.elements);
           setIsDeleteButtonDisabled(true);
           setIsCleanButtonDisabled(true);
         }}/>
@@ -83,7 +83,7 @@ export const StackPage: React.FC = () => {
         {
           stack && stackContainer.map((item, index) =>
             index === stackContainer.length - 1
-              ? <Circle key={`circle-top: ${index}`} state={item.status} symbol={item.symbol} index={index} head="top"/>
+              ? <Circle key={`circle-named-top: ${index}`} state={item.status} symbol={item.symbol} index={index} head="top"/>
               : <Circle key={`circle: ${index}`} state={item.status} symbol={item.symbol} index={index}/>
           )
         }

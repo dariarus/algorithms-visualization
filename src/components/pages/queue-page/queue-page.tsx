@@ -17,39 +17,39 @@ type TQueue = Array<TSymbol | null>
 export const QueuePage: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>('');
   const [queue] = useState<Queue<TSymbol>>(new Queue<TSymbol>(7));
-  const [queueContainer, setQueueContainer] = useState<TQueue>(queue.container);
+  const [queueContainer, setQueueContainer] = useState<TQueue>(queue.elements);
 
   const [isAddButtonDisabled, setIsAddButtonDisabled] = useState<boolean>(true);
   const [isDeleteButtonDisabled, setIsDeleteButtonDisabled] = useState<boolean>(true);
   const [isCleanButtonDisabled, setIsCleanButtonDisabled] = useState<boolean>(true);
 
-  const changeSymbolStatus = (arr: Array<TSymbol | null>, status: ElementStates, index: number) => {
-    if (arr[index] !== null) {
-      (arr[index] as TSymbol).status = status;
+  const changeSymbolStatus = (status: ElementStates, item: TSymbol | null) => {
+    if (item !== null) {
+      item.status = status;
     }
   }
 
-  const changeSymbolRendering = async (queue: Queue<TSymbol>, status: ElementStates, currIndex: number, isAsync: boolean) => {
+  const changeSymbolRendering = async (status: ElementStates, item: TSymbol | null, isAsync: boolean) => {
     if (isAsync) {
       await setRenderingTimer(SHORT_DELAY_IN_MS);
     }
-    changeSymbolStatus(queue.container, status, currIndex);
-    setQueueContainer([...queue.container]);
+    changeSymbolStatus(status, item);
+    setQueueContainer([...queue.elements]);
   }
 
   const renderCircles = useCallback(() => {
     let circlesContainer: Array<any> = [];
     for (let i = 0; i < queueContainer.length; i++) {
       circlesContainer
-        .push(queue.head === i && queue.tail === i && queueContainer[i]?.symbol
+        .push(queue.head.index === i && queue.tail.index === i && queueContainer[i]?.symbol
           ? <Circle key={i} symbol={queueContainer[i]?.symbol}
                     state={queueContainer[i]?.status}
                     index={i} head="head" tail="tail"/>
-          : queue.head === i && queueContainer[i]?.symbol
+          : queue.head.index === i && queueContainer[i]?.symbol
             ? <Circle key={i} symbol={queueContainer[i]?.symbol}
                       state={queueContainer[i]?.status}
                       index={i} head="head"/>
-            : queue.tail === i && queueContainer[i]?.symbol
+            : queue.tail.index === i && queueContainer[i]?.symbol
               ? <Circle key={i} symbol={queueContainer[i]?.symbol}
                         state={queueContainer[i]?.status}
                         index={i} tail="tail"/>
@@ -81,16 +81,16 @@ export const QueuePage: React.FC = () => {
               symbol: inputValue,
               status: ElementStates.Default
             })
-            setQueueContainer(queue.container);
-            await changeSymbolRendering(queue, ElementStates.Changing, queue.tail, false);
-            await changeSymbolRendering(queue, ElementStates.Default, queue.tail, true);
+            setQueueContainer(queue.elements);
+            await changeSymbolRendering(ElementStates.Changing, queue.tail.value, false);
+            await changeSymbolRendering(ElementStates.Default, queue.tail.value, true);
           }}/>
           <Button extraClass={queuePage.button} text="Удалить" disabled={isDeleteButtonDisabled} onClick={async () => {
-            await changeSymbolRendering(queue, ElementStates.Changing, queue.head, false);
-            await changeSymbolRendering(queue, ElementStates.Default, queue.head, true);
+            await changeSymbolRendering(ElementStates.Changing, queue.head.value, false);
+            await changeSymbolRendering(ElementStates.Default, queue.head.value, true);
 
             queue.dequeue();
-            setQueueContainer(queue.container);
+            setQueueContainer(queue.elements);
             if (queue.length === 0) {
               setIsDeleteButtonDisabled(true);
               setIsCleanButtonDisabled(true);
@@ -99,7 +99,7 @@ export const QueuePage: React.FC = () => {
         </div>
         <Button text="Очистить" disabled={isCleanButtonDisabled} onClick={() => {
           queue?.clean();
-          setQueueContainer(queue.container);
+          setQueueContainer(queue.elements);
           setIsDeleteButtonDisabled(true);
           setIsCleanButtonDisabled(true);
         }}/>
