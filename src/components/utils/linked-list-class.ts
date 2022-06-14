@@ -21,7 +21,7 @@ interface ILinkedList<T> {
 
 export class LinkedList<T> implements ILinkedList<T> {
   head: LinkedListNode<T> | null;
-  private readonly _size: number;
+  private _size: number;
 
   constructor() {
     this.head = null;
@@ -55,7 +55,7 @@ export class LinkedList<T> implements ILinkedList<T> {
     const node = new LinkedListNode(element);
     node.next = this.head;
     this.head = node;
-    this.size++;
+    this._size++;
     return this;
   }
 
@@ -64,7 +64,7 @@ export class LinkedList<T> implements ILinkedList<T> {
     if (this.head) {
       if (!this.head.next) {
         this.head = null;
-        this.size--;
+        this._size--;
         return;
       }
       let tmp = this.head;
@@ -88,7 +88,7 @@ export class LinkedList<T> implements ILinkedList<T> {
       }
       current.next = node;
     }
-    this.size++;
+    this._size++;
     return this;
   }
 
@@ -110,13 +110,13 @@ export class LinkedList<T> implements ILinkedList<T> {
       tail = tail.next;
     }
     previous.next = null;
-    this.size--;
+    this._size--;
     return this;
   }
 
   // добавить по индексу
   addByIndex(element: T, index: number) {
-    if (index < 0 || index > this.size - 1) {
+    if (index < 0 || index > this._size - 1) {
       console.log('Enter a valid index');
       return;
     } else {
@@ -131,7 +131,7 @@ export class LinkedList<T> implements ILinkedList<T> {
           node.next = prev.next
           prev.next = node;
         }
-        this.size++;
+        this._size++;
       }
     }
     return this;
@@ -152,7 +152,7 @@ export class LinkedList<T> implements ILinkedList<T> {
       return;
     }
     previous.next = previous.next.next;
-    this.size--;
+    this._size--;
     return this;
   }
 
