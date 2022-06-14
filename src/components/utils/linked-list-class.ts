@@ -9,23 +9,27 @@ export class LinkedListNode<T> {
 }
 
 interface ILinkedList<T> {
+  size: number;
   prepend: (element: T) => void;
   append: (element: T) => void;
   deleteHead: () => void;
   deleteTail: () => void;
   addByIndex: (element: T, position: number) => void;
   deleteByIndex: (index: number) => void;
-  getSize?: () => number;
   toArray: () => void;
 }
 
 export class LinkedList<T> implements ILinkedList<T> {
   head: LinkedListNode<T> | null;
-  size: number;
+  private readonly _size: number;
 
   constructor() {
     this.head = null;
-    this.size = 0;
+    this._size = 0;
+  }
+
+  get size() {
+    return this._size;
   }
 
   private getNode(index: number) {
@@ -150,10 +154,6 @@ export class LinkedList<T> implements ILinkedList<T> {
     previous.next = previous.next.next;
     this.size--;
     return this;
-  }
-
-  getSize() {
-    return this.size;
   }
 
   toArray() {
