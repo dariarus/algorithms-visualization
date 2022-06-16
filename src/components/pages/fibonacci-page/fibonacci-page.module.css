@@ -1,0 +1,19 @@
+.inputWrap {
+  display: flex;
+  justify-content: space-between;
+  max-width: 567px;
+  margin: auto;
+}
+
+.calculateButton {
+  margin-left: 12px;
+}
+
+.numbersWrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 70px 20px;
+  justify-content: center;
+  margin: 48px auto 0;
+  max-width: 1024px;
+}

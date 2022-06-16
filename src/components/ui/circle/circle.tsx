@@ -4,7 +4,7 @@ import { ElementStates } from "../../../types/element-states";
 
 interface CircleProps {
   state?: ElementStates;
-  letter?: string;
+  symbol?: string | number;
   head?: string | React.ReactElement | null;
   index?: number;
   tail?: string | React.ReactElement | null;
@@ -15,7 +15,7 @@ interface CircleProps {
 
 export const Circle: React.FC<CircleProps> = ({
   state = ElementStates.Default,
-  letter,
+  symbol,
   head,
   index,
   tail,
@@ -41,7 +41,7 @@ export const Circle: React.FC<CircleProps> = ({
         <p
           className={`text text_type_circle text_color_input ${styles.letter}`}
         >
-          {letter}
+          {symbol}
         </p>
       </div>
       <p

@@ -1,0 +1,50 @@
+.grid {
+  display: grid;
+  grid: repeat(auto-fit, 1fr) / repeat(5, auto);
+  grid-gap: 12px 10px;
+  grid-auto-rows: 100px;
+  justify-items: start;
+  align-items: start;
+  max-width: 950px;
+  margin: auto;
+}
+
+.bigAddButton {
+  grid-column-start: 2;
+  grid-column-end: 4;
+}
+
+.bigDeleteButton {
+  grid-column-start: 4;
+  grid-column-end: 6;
+}
+
+.smallCircleWrapTop {
+  position: absolute;
+  bottom: 88px;
+  left: 12px;
+}
+
+.smallCircleWrapBottom {
+  position: absolute;
+  top: 118px;
+  left: 12px;
+}
+
+.smallCircles {
+  z-index: 10;
+  background-color: #fff;
+}
+
+.circleWrap {
+  display: flex;
+  gap: 0 16px;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  padding-top: 90px;
+}
+
+.circles {
+  position: relative;
+}

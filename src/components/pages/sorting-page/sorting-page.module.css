@@ -1,0 +1,35 @@
+.wrapper {
+  display: flex;
+  justify-content: space-around;
+  margin: auto;
+  max-width: 1240px;
+}
+
+.button {
+  min-width: 205px;
+}
+
+.buttonsWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-basis: 60%;
+}
+
+.radioWrapper {
+  display: flex;
+  justify-content: space-between;
+  min-width: 221px;
+}
+
+.buttonsSortWrapper {
+  display: flex;
+  justify-content: space-between;
+  min-width: 422px;
+}
+
+.columns {
+  display: flex;
+  justify-content: center;
+  margin-top: 48px;
+}

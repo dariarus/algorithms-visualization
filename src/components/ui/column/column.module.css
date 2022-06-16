@@ -1,12 +1,19 @@
 .content {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   align-items: center;
   box-sizing: border-box;
   width: 50px;
+  height: 368px;
+  margin-right: 10px;
+}
+
+.content:last-of-type {
+  margin: 0;
 }
 
 .column {
+  max-height: 320px;;
   width: 100%;
 }
 
