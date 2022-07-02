@@ -13,7 +13,7 @@ import {
 } from "../../../constants/random-array";
 import {Column} from "../../ui/column/column";
 import {ElementStates} from "../../../types/element-states";
-import {generateRandomArray, getArray, setRenderingTimer, swap} from "../../utils/utils";
+import {generateRandomArray, getSymbolArray, setRenderingTimer, swap} from "../../utils/utils";
 import {TSymbolArray} from "../../../types";
 import {SHORT_DELAY_IN_MS} from "../../../constants/delays";
 
@@ -146,7 +146,7 @@ export const SortingPage: React.FC = () => {
           setIsAscSortButtonDisabled(false);
           setIsDescSortButtonDisabled(false);
           let array = generateRandomArray(sortMaxLength, sortMinLength, sortMaxValue, sortMinValue);
-          let numArr = getArray(array);
+          let numArr = getSymbolArray(array);
           setNumbersArray(numArr);
         }}/>
       </div>

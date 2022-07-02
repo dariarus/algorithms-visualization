@@ -14,7 +14,7 @@ export const setRenderingTimer = async (ms: number) => {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-export const getArray = (arr: Array<string | number>) => {
+export const getSymbolArray = (arr: Array<string | number>) => {
   return arr
     .map(symbol => {
       return {
