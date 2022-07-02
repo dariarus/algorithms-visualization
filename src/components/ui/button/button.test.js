@@ -4,7 +4,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 
 import { Button } from './button';
 
-describe('ButtonComponent', () => {
+describe('Button Component', () => {
   it('Button has text', () => {
     const tree = renderer
       .create(<Button text="Кнопка с текстом" />)
