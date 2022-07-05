@@ -8,8 +8,7 @@ import {Button} from "../../ui/button/button";
 import {Circle} from "../../ui/circle/circle";
 
 import {fib} from "../../utils/algorithms";
-import {TSymbolArray} from "../../../types";
-import {ElementStates} from "../../../types/element-states";
+
 import {setRenderingTimer} from "../../utils/utils";
 
 export const FibonacciPage: React.FC = () => {
@@ -18,7 +17,6 @@ export const FibonacciPage: React.FC = () => {
   const [buttonLoaderRender, setButtonLoaderRender] = useState<boolean>(false);
 
   let number = parseInt(inputValue, 10);
-
 
   // Изменить статус/внешний вид символов с паузой и обновить стейт для рендеринга
   const changeFibRendering = async () => {
@@ -40,7 +38,7 @@ export const FibonacciPage: React.FC = () => {
             setFibNumberArray([]);
           }
         }}/>
-        <Button extraClass={fibonacciPage.calculateButton} text="Расcчитать" disabled={!number || number > 19}
+        <Button extraClass={fibonacciPage.calculateButton} text="Рассчитать" disabled={!number || number > 19}
                 isLoader={buttonLoaderRender} onClick={() => {
           setButtonLoaderRender(true);
           changeFibRendering();

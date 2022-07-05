@@ -1,5 +1,4 @@
 import {DELAY_IN_MS} from "../../../src/constants/delays";
-import {ElementStates} from "../../../src/types/element-states";
 
 describe('a string page functionality works correctly', function () {
   before(function () {
