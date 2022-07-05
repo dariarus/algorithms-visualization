@@ -163,13 +163,13 @@ export const ListPage: React.FC = () => {
               }
               {
                 i === 0 && listItems.length === 1
-                  ? <Circle state={listItems[i].status} symbol={listItems[i].symbol} index={i} head="head"
+                  ? <Circle state={listItems[i].status} symbol={listItems[i].symbol} showIndex={true} index={i} head="head"
                             tail="tail"/>
                   : i === 0
-                    ? <Circle state={listItems[i].status} symbol={listItems[i].symbol} index={i} head="head"/>
+                    ? <Circle state={listItems[i].status} symbol={listItems[i].symbol} showIndex={true} index={i} head="head"/>
                     : i === listItems.length - 1
-                      ? <Circle state={listItems[i].status} symbol={listItems[i].symbol} index={i} tail="tail"/>
-                      : <Circle state={listItems[i].status} symbol={listItems[i].symbol} index={i}/>
+                      ? <Circle state={listItems[i].status} symbol={listItems[i].symbol} showIndex={true} index={i} tail="tail"/>
+                      : <Circle state={listItems[i].status} symbol={listItems[i].symbol} showIndex={true} index={i}/>
               }
               {
                 isNeedSmallCircleBottom && i === indexToRenderSmallCirclesBottom &&

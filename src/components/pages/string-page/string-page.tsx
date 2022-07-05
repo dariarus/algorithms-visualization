@@ -49,7 +49,7 @@ export const StringComponent: React.FC = () => {
               await changeSymbolRendering(arr, ElementStates.Changing, start, end)
             },
             async (arr, start, end) => {
-              await changeSymbolRendering(arr, ElementStates.Modified, start, end)
+            await changeSymbolRendering(arr, ElementStates.Modified, start, end)
             }
           ).then(() => {
             setButtonLoaderRender(false);
@@ -60,7 +60,7 @@ export const StringComponent: React.FC = () => {
         {
           lettersArray &&
           lettersArray.map((letter, index) =>
-            <Circle key={index} state={letter.status} symbol={letter.symbol}/>)
+            <Circle key={index} state={letter.status} symbol={letter.symbol} index={index}/>)
         }
       </div>
     </SolutionLayout>

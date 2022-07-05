@@ -50,7 +50,7 @@ export const FibonacciPage: React.FC = () => {
         {
           fibNumberArray !== [] &&
           (fibNumberArray.map((number, index) =>
-            <Circle key={index} symbol={number} index={index}/>))
+            <Circle key={index} symbol={number} showIndex={true} index={index}/>))
         }
       </div>
     </SolutionLayout>

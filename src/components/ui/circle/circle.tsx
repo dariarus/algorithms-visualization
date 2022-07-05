@@ -11,6 +11,7 @@ interface CircleProps {
   tailType?: "string" | "element";
   extraClass?: string;
   isSmall?: boolean;
+  showIndex?: boolean;
 }
 
 export const Circle: React.FC<CircleProps> = ({
@@ -21,6 +22,7 @@ export const Circle: React.FC<CircleProps> = ({
   tail,
   extraClass = "",
   isSmall,
+  showIndex = false
 }) => {
   return (
     <div className={`${styles.content} ${extraClass}`}>
@@ -33,7 +35,7 @@ export const Circle: React.FC<CircleProps> = ({
       >
         {head}
       </div>
-      <div
+      <div id={`circle-index-${index}`}
         className={`${styles.circle}  ${isSmall ? styles.small : ""} ${
           styles[state]
         }`}
@@ -47,12 +49,14 @@ export const Circle: React.FC<CircleProps> = ({
       <p
         className={`text text_type_input text_color_input mt-4 ${styles.absolute} ${styles.index}`}
       >
-        {index?.toString()}
+        {
+          showIndex && index?.toString()
+        }
       </p>
       <div
         className={`text text_type_input text_color_input mt-4 ${
           styles.absolute
-        } ${index?.toString() ? styles.tail60 : styles.tail30} ${
+        } ${showIndex && index?.toString() ? styles.tail60 : styles.tail30} ${
           styles[typeof tail === "string" ? "string" : "element"]
         }`}
       >
