@@ -14,7 +14,7 @@ describe('a string page functionality works correctly', function () {
     cy.get('input').type('6');
     cy.get('button').contains('Рассчитать').click();
 
-    const result = [1, 1, 2, 3, 5, 8, 13]; // результат для 6-го члена последовательности
+    const result = [1, 1, 2, 3, 5, 8, 13]; // результат-шаблон для 6-го члена последовательности
 
     cy.get('input')
       .invoke('val')
@@ -28,7 +28,8 @@ describe('a string page functionality works correctly', function () {
           cy.get(`@circle-${i}`)
             .invoke('attr', 'class')
             .should('contain', 'circle_default');
-          cy.get(`@circle-${i}`).should('contain', `${result[i]}`); // проверяем символ в кружке по созданному шаблону для введенного значения
+          // проверяем символ в кружке по созданному шаблону для введенного значения
+          cy.get(`@circle-${i}`).should('contain', `${result[i]}`);
         }
       }).then(() => {
         cy.get('[class^=circle_circle]').then(($arr) => {
