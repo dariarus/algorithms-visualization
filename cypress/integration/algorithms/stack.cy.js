@@ -1,4 +1,4 @@
-import {DELAY_IN_MS, SHORT_DELAY_IN_MS} from "../../../src/constants/delays";
+import {SHORT_DELAY_IN_MS} from "../../../src/constants/delays";
 
 describe('a stack page functionality works correctly', function () {
   const result = [0, 1, 2, 3];
@@ -38,12 +38,10 @@ describe('a stack page functionality works correctly', function () {
 
       cy.get(`@circle-${i}`).should('contain', `${result[i]}`);
     }
-
-    cy.get(`[class^=circle_content]`)
-      .find(`[id=circle-index-${result.length - 1}]`)
+    // Проверить, что последний кружок содержит идентификатор top
+    cy.get(`[id=circle-index-${result.length - 1}]`)
       .prev()
       .should('contain', 'top')
-
   });
 
   it('disappearing elements animation works correctly after clicking the Delete-button', function () {
