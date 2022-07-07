@@ -36,7 +36,7 @@ describe('a string page functionality works correctly', function () {
             cy.get(`[id=circle-index-${val.length - 1}]`)
               .invoke('attr', 'class')
               .should('contain', 'circle_changing');
-          } else { // все остальные итерации - проверка i и val.length - i - 1 эл-тов. Предыдущие эл-ты д/стать уже зелеными
+          } else { // Все остальные итерации - проверка i и val.length - i - 1 эл-тов. Предыдущие эл-ты д/стать уже зелеными
             // розовые кружки
             cy.get(`[id^=circle-index-${i}]`)
               .invoke('attr', 'class')

@@ -140,7 +140,7 @@ export const ListPage: React.FC = () => {
             </div>
             : <div className={listPage.smallCircleWrapBottom}>
               {
-                <Circle extraClass={listPage.smallCircles} key={`smallCircleBottom: ${keyInd}`}
+                <Circle extraClass={listPage.smallCircles}
                         state={ElementStates.Changing} symbol={symbol}
                         isSmall={true}/>
               }
@@ -163,12 +163,15 @@ export const ListPage: React.FC = () => {
               }
               {
                 i === 0 && listItems.length === 1
-                  ? <Circle state={listItems[i].status} symbol={listItems[i].symbol} showIndex={true} index={i} head="head"
+                  ? <Circle state={listItems[i].status} symbol={listItems[i].symbol} showIndex={true} index={i}
+                            head="head"
                             tail="tail"/>
                   : i === 0
-                    ? <Circle state={listItems[i].status} symbol={listItems[i].symbol} showIndex={true} index={i} head="head"/>
+                    ? <Circle state={listItems[i].status} symbol={listItems[i].symbol} showIndex={true} index={i}
+                              head="head"/>
                     : i === listItems.length - 1
-                      ? <Circle state={listItems[i].status} symbol={listItems[i].symbol} showIndex={true} index={i} tail="tail"/>
+                      ? <Circle state={listItems[i].status} symbol={listItems[i].symbol} showIndex={true} index={i}
+                                tail="tail"/>
                       : <Circle state={listItems[i].status} symbol={listItems[i].symbol} showIndex={true} index={i}/>
               }
               {
@@ -227,8 +230,10 @@ export const ListPage: React.FC = () => {
           setIsAddTailButtonDisabled(false);
           setIsDeleteHeadButtonDisabled(false);
           setIsDeleteTailButtonDisabled(false);
-          setIsAddByIndexButtonDisabled(false);
-          setDeleteByIndexButtonLoader(false);
+          if (inputIndexValue !== '') {
+            setIsAddByIndexButtonDisabled(false);
+            setDeleteByIndexButtonLoader(false);
+          }
         }}/>
 
         <Button text="Добавить в tail" linkedList="small" isLoader={addTailButtonLoader}
@@ -258,8 +263,10 @@ export const ListPage: React.FC = () => {
           setIsAddHeadButtonDisabled(false);
           setIsDeleteHeadButtonDisabled(false);
           setIsDeleteTailButtonDisabled(false);
-          setIsAddByIndexButtonDisabled(false);
-          setIsDeleteByIndexButtonDisabled(false);
+          if (inputIndexValue !== '') {
+            setIsAddByIndexButtonDisabled(false);
+            setIsDeleteByIndexButtonDisabled(false);
+          }
         }}/>
 
         <Button text="Удалить из head" linkedList="small" isLoader={deleteHeadButtonLoader}
@@ -289,8 +296,10 @@ export const ListPage: React.FC = () => {
           setIsAddHeadButtonDisabled(false);
           setIsAddTailButtonDisabled(false);
           setIsDeleteTailButtonDisabled(false);
-          setIsAddByIndexButtonDisabled(false);
-          setIsDeleteByIndexButtonDisabled(false);
+          if (inputIndexValue !== '') {
+            setIsAddByIndexButtonDisabled(false);
+            setIsDeleteByIndexButtonDisabled(false);
+          }
         }}/>
 
         <Button text="Удалить из tail" linkedList="small" isLoader={deleteTailButtonLoader}
@@ -320,8 +329,10 @@ export const ListPage: React.FC = () => {
           setIsAddHeadButtonDisabled(false);
           setIsAddTailButtonDisabled(false);
           setIsDeleteHeadButtonDisabled(false);
-          setIsAddByIndexButtonDisabled(false);
-          setIsDeleteByIndexButtonDisabled(false);
+          if (inputIndexValue !== '') {
+            setIsAddByIndexButtonDisabled(false);
+            setIsDeleteByIndexButtonDisabled(false);
+          }
         }}/>
 
         <Input type="number" placeholder="Введите индекс" value={inputIndexValue} disabled={isInputIndexDisabled}
@@ -337,8 +348,9 @@ export const ListPage: React.FC = () => {
 
         <Button extraClass={listPage.bigAddButton} text="Добавить по индексу" linkedList="big"
                 isLoader={addByIndexButtonLoader}
-                disabled={isAddByIndexButtonDisabled} onClick={async () => {
-          let index = parseInt(inputIndexValue);
+                disabled={isAddByIndexButtonDisabled || isAddHeadButtonDisabled} onClick={async () => {
+
+          const index = parseInt(inputIndexValue);
 
           if (index >= 0 && index <= list.toArray().length - 1) {
             setAddByIndexButtonLoader(true);
@@ -372,7 +384,7 @@ export const ListPage: React.FC = () => {
 
         <Button extraClass={listPage.bigDeleteButton} text="Удалить по индексу" linkedList="big"
                 isLoader={deleteByIndexButtonLoader} disabled={isDeleteByIndexButtonDisabled} onClick={async () => {
-          let index = parseInt(inputIndexValue);
+          const index = parseInt(inputIndexValue);
 
           if (index >= 0 && index <= list.toArray().length - 1) {
             setDeleteByIndexButtonLoader(true);
