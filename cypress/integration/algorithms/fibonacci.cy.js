@@ -1,6 +1,6 @@
 import {DELAY_IN_MS} from "../../../src/constants/delays";
 
-describe('a string page functionality works correctly', function () {
+describe('a fibonacci page functionality works correctly', function () {
   before(function () {
     cy.visit('http://localhost:3001/algorithms/fibonacci');
   });

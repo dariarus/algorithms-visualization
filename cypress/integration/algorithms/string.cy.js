@@ -11,7 +11,7 @@ describe('a string page functionality works correctly', function () {
   });
 
   it('string reverse animation works correctly', function () {
-    cy.get('input').type('overturn'); // тест работает с четным и нечетным кол-вом букв, а т-же с 1 буквой
+    cy.get('input').type('overturn').as('input'); // тест работает с четным и нечетным кол-вом букв, а т-же с 1 буквой
     cy.get('button').contains('Развернуть').click();
 
     cy.get('[class^=circle_circle]').as('circles');
@@ -20,7 +20,7 @@ describe('a string page functionality works correctly', function () {
       .invoke('attr', 'class')
       .should('contain', 'circle_default');
 
-    cy.get('input')
+    cy.get('@input')
       .invoke('val')
       .then((val) => { // получаем значение, введенное в input
 

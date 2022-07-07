@@ -45,7 +45,7 @@ export const StackPage: React.FC = () => {
                    setIsAddButtonDisabled(false);
                    setInputValue(e.target.value);
                  }}/>
-          <Button extraClass={stackPage.button} text="Добавить" disabled={isAddButtonDisabled} onClick={async () => {
+          <Button id="addButton" extraClass={stackPage.button} text="Добавить" disabled={isAddButtonDisabled} onClick={async () => {
             setInputValue('');
             setIsAddButtonDisabled(true);
             setIsDeleteButtonDisabled(false);
