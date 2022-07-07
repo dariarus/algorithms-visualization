@@ -1,7 +1,6 @@
 import {DELAY_IN_MS, SHORT_DELAY_IN_MS} from "../../../src/constants/delays";
 
 describe('a stack page functionality works correctly', function () {
-  // TODO: как посчитать длину самого стека вместо использования шаблона?
   const result = [0, 1, 2, 3];
 
   before(function () {
@@ -9,15 +8,21 @@ describe('a stack page functionality works correctly', function () {
     cy.get('button').should('be.disabled');
   });
 
-  it('a button should be disabled while the input is empty', function () {
+  it('an Add-button should be disabled while the input is empty', function () {
     cy.get('input').should('have.value', '');
-    cy.get('button[id="addButton"]').as('addButton');
-    cy.get('@addButton').should('be.disabled');
+    cy.get('button')
+      .filter(':contains("Добавить")')
+      .should('be.disabled');
   });
 
   it('appearing elements animation works correctly after clicking the Add-button', function () {
     for (let i = 0; i < result.length; i++) {
       cy.get('input').type(`${i}`);
+
+      cy.get('button')
+        .filter(':contains("Добавить")')
+        .should('be.enabled');
+
       cy.get('button').contains('Добавить').click();
 
       cy.get(`[id=circle-index-${i}]`).as(`circle-${i}`);
@@ -34,11 +39,11 @@ describe('a stack page functionality works correctly', function () {
       cy.get(`@circle-${i}`).should('contain', `${result[i]}`);
     }
 
-    // TODO: как проверить наличие "top" у последнего эл-та?
+    cy.get(`[class^=circle_content]`)
+      .find(`[id=circle-index-${result.length - 1}]`)
+      .prev()
+      .should('contain', 'top')
 
-    // cy.get(`[class^=circle_content]`).find(`@circle-${result.length - 1}`)
-    //   .invoke('attr', 'class')
-    //   .should('contain', 'circle_head');
   });
 
   it('disappearing elements animation works correctly after clicking the Delete-button', function () {
@@ -47,9 +52,6 @@ describe('a stack page functionality works correctly', function () {
     cy.get('@circles')
       .invoke('attr', 'class')
       .should('contain', 'circle_default');
-
-    // const stackLength = cy.get('[class^=circle_circle]').its('length')
-    // console.log(stackLength)
 
     cy.get(`[id=circle-index-${result.length - 1}]`).as('lastCircle')
 
@@ -65,6 +67,11 @@ describe('a stack page functionality works correctly', function () {
 
         // проверить, что удаляемого кружка больше нет на странице
         cy.get(`[id=circle-index-${result.length - 1}]`).should('not.exist');
+
+        // проверить, что после удаления кружка длина стека уменьшилась на 1
+        cy.get('[class^=circle_circle]')
+          .its('length')
+          .should('be.eq', result.length - 1)
       })
   });
 
