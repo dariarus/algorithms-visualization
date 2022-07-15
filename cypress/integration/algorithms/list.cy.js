@@ -31,8 +31,7 @@ describe('a list page functionality works correctly', function () {
     cy.get('@button').filter(':contains("Удалить из tail")')
       .should('be.enabled');
 
-    // TODO: как проверить кол-во кружков, если они генер-ся рандомно при какждой загрузке страницы?
-    // Проверяем пока, что есть некоторые синие кружки
+    // Проверяем, что есть некоторые синие кружки с некоторыми значениями
     cy.get(`[class^=circle_circle]`).as('circles');
 
     cy.get('@circles')
@@ -40,8 +39,7 @@ describe('a list page functionality works correctly', function () {
       .should('be.gt', 0)
       .and('be.lt', 7);
 
-    // TODO: как проверить значения внутри кружков, если они тоже рандомные?
-    // cy.get('@circles').should('contain', '');
+    cy.get('@circles').should('not.be.empty');
 
     cy.get('@circles')
       .invoke('attr', 'class')
@@ -53,53 +51,53 @@ describe('a list page functionality works correctly', function () {
     });
   });
 
-  // it('enabled and disabled buttons render correctly', function () {
-  //   cy.get('button').as('button');
-  //
-  //   // Проверить, что кнопки для удаления значений доступны в любом случае
-  //   cy.get('@button')
-  //     .filter(':contains("Удалить из head")')
-  //     .should('be.enabled');
-  //
-  //   cy.get('@button')
-  //     .filter(':contains("Удалить из tail")')
-  //     .should('be.enabled');
-  //
-  //   // Проверить, что текстовое поле для значений пустое
-  //   cy.get(`input[type^=text]`)
-  //     .should('have.value', '');
-  //
-  //   // и, сл-но, недоступны все остальные кнопки
-  //   cy.get('@button')
-  //     .filter(':contains("Добавить в head")')
-  //     .should('be.disabled');
-  //
-  //   cy.get('@button')
-  //     .filter(':contains("Добавить в tail")')
-  //     .should('be.disabled');
-  //
-  //   cy.get('@button')
-  //     .filter(':contains("Добавить по индексу")')
-  //     .should('be.disabled');
-  //
-  //   cy.get('@button')
-  //     .filter(':contains("Удалить по индексу")')
-  //     .should('be.disabled');
-  //
-  //   // Проверить, что числовое поле для индекса пустое
-  //   cy.get(`input[type^=number]`)
-  //     .should('have.value', '');
-  //
-  //   // и, сл-но, недоступны кнопки доб./уд. по индексу
-  //   cy.get('@button')
-  //     .filter(':contains("Добавить по индексу")')
-  //     .should('be.disabled');
-  //
-  //   cy.get('@button')
-  //     .filter(':contains("Удалить по индексу")')
-  //     .should('be.disabled');
-  // });
-  //
+  it('Enabled and disabled buttons render correctly', function () {
+    cy.get('button').as('button');
+
+    // Проверить, что кнопки для удаления значений доступны в любом случае
+    cy.get('@button')
+      .filter(':contains("Удалить из head")')
+      .should('be.enabled');
+
+    cy.get('@button')
+      .filter(':contains("Удалить из tail")')
+      .should('be.enabled');
+
+    // Проверить, что текстовое поле для значений пустое
+    cy.get(`input[type^=text]`)
+      .should('have.value', '');
+
+    // и, сл-но, недоступны все остальные кнопки
+    cy.get('@button')
+      .filter(':contains("Добавить в head")')
+      .should('be.disabled');
+
+    cy.get('@button')
+      .filter(':contains("Добавить в tail")')
+      .should('be.disabled');
+
+    cy.get('@button')
+      .filter(':contains("Добавить по индексу")')
+      .should('be.disabled');
+
+    cy.get('@button')
+      .filter(':contains("Удалить по индексу")')
+      .should('be.disabled');
+
+    // Проверить, что числовое поле для индекса пустое
+    cy.get(`input[type^=number]`)
+      .should('have.value', '');
+
+    // и, сл-но, недоступны кнопки доб./уд. по индексу
+    cy.get('@button')
+      .filter(':contains("Добавить по индексу")')
+      .should('be.disabled');
+
+    cy.get('@button')
+      .filter(':contains("Удалить по индексу")')
+      .should('be.disabled');
+  });
+
   it('Add-to-head-button functionality works correctly', function () {
     cy.get('[class^=circle_circle]').as('bigCircles');
 
