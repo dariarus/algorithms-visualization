@@ -232,7 +232,7 @@ export const ListPage: React.FC = () => {
           setIsDeleteTailButtonDisabled(false);
           if (inputIndexValue !== '') {
             setIsAddByIndexButtonDisabled(false);
-            setDeleteByIndexButtonLoader(false);
+            setIsDeleteByIndexButtonDisabled(false);
           }
         }}/>
 

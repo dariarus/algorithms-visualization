@@ -9,6 +9,7 @@ exports[`Circle Component Circle in Changing state 1`] = `
   />
   <div
     className="circle   changing"
+    id="circle-index-undefined"
   >
     <p
       className="text text_type_circle text_color_input letter"
@@ -32,6 +33,7 @@ exports[`Circle Component Circle in Default state 1`] = `
   />
   <div
     className="circle   default"
+    id="circle-index-undefined"
   >
     <p
       className="text text_type_circle text_color_input letter"
@@ -55,6 +57,7 @@ exports[`Circle Component Circle in Modified state 1`] = `
   />
   <div
     className="circle   modified"
+    id="circle-index-undefined"
   >
     <p
       className="text text_type_circle text_color_input letter"
@@ -78,6 +81,7 @@ exports[`Circle Component Circle is small 1`] = `
   />
   <div
     className="circle  small default"
+    id="circle-index-undefined"
   >
     <p
       className="text text_type_circle text_color_input letter"
@@ -103,6 +107,7 @@ exports[`Circle Component Circle with head 1`] = `
   </div>
   <div
     className="circle   default"
+    id="circle-index-undefined"
   >
     <p
       className="text text_type_circle text_color_input letter"
@@ -132,6 +137,7 @@ exports[`Circle Component Circle with head has react-element inside 1`] = `
       />
       <div
         className="circle  small default"
+        id="circle-index-undefined"
       >
         <p
           className="text text_type_circle text_color_input letter"
@@ -147,6 +153,7 @@ exports[`Circle Component Circle with head has react-element inside 1`] = `
   </div>
   <div
     className="circle   default"
+    id="circle-index-undefined"
   >
     <p
       className="text text_type_circle text_color_input letter"
@@ -170,6 +177,7 @@ exports[`Circle Component Circle with index 1`] = `
   />
   <div
     className="circle   default"
+    id="circle-index-1"
   >
     <p
       className="text text_type_circle text_color_input letter"
@@ -177,11 +185,9 @@ exports[`Circle Component Circle with index 1`] = `
   </div>
   <p
     className="text text_type_input text_color_input mt-4 absolute index"
-  >
-    1
-  </p>
+  />
   <div
-    className="text text_type_input text_color_input mt-4 absolute tail60 element"
+    className="text text_type_input text_color_input mt-4 absolute tail30 element"
   />
 </div>
 `;
@@ -195,6 +201,7 @@ exports[`Circle Component Circle with letter 1`] = `
   />
   <div
     className="circle   default"
+    id="circle-index-undefined"
   >
     <p
       className="text text_type_circle text_color_input letter"
@@ -220,6 +227,7 @@ exports[`Circle Component Circle with tail 1`] = `
   />
   <div
     className="circle   default"
+    id="circle-index-undefined"
   >
     <p
       className="text text_type_circle text_color_input letter"
@@ -245,6 +253,7 @@ exports[`Circle Component Circle with tail has react-element inside 1`] = `
   />
   <div
     className="circle   default"
+    id="circle-index-undefined"
   >
     <p
       className="text text_type_circle text_color_input letter"
@@ -264,6 +273,7 @@ exports[`Circle Component Circle with tail has react-element inside 1`] = `
       />
       <div
         className="circle  small default"
+        id="circle-index-undefined"
       >
         <p
           className="text text_type_circle text_color_input letter"
@@ -289,6 +299,7 @@ exports[`Circle Component Circle without letter 1`] = `
   />
   <div
     className="circle   default"
+    id="circle-index-undefined"
   >
     <p
       className="text text_type_circle text_color_input letter"

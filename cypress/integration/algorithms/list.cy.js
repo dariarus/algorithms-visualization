@@ -317,7 +317,6 @@ describe('a list page functionality works correctly', function () {
       .find('p')
       .then((val) => {
         const nextValue = val.text();
-        console.log(nextValue)
 
         cy.get('button').contains("Удалить из head").click();
 
@@ -340,6 +339,8 @@ describe('a list page functionality works correctly', function () {
         // спустя секунду оба кружка исчезают, длина сокращается на 1, а в head попадает значение бывшего кружка №1
         cy.wait(DELAY_IN_MS);
 
+        list.shift();
+
         cy.get(`[id=circle-index-${head}]`).as('head-circle');
         cy.get('@head-circle')
           .parent()
@@ -349,9 +350,148 @@ describe('a list page functionality works correctly', function () {
         cy.get('@head-circle')
           .should('contain', `${nextValue}`);
 
+        cy.get('@head-circle')
+          .prev()
+          .should('contain', 'head')
+
         cy.get('[class^=circle_circle]')
           .its('length')
           .should('be.eq', currentLength - 1);
+      })
+  });
+
+  it('Delete-from-tail-button functionality works correctly', function () {
+    cy.get('[class^=circle_circle]').as('bigCircles');
+
+    // Фиксируем значения для списка до изменений
+    let tail = list.length - 1;
+
+    cy.get(`[id=circle-index-${tail}]`)
+      .find('p')
+      .then((val) => {
+        const tailValue = val.text();
+
+        cy.get(`[id=circle-index-${tail - 1}]`)
+          .find('p')
+          .then((val) => {
+            const prevValue = val.text();
+
+            cy.get('button').contains("Удалить из tail").click();
+
+            // По нажатию на кнопку внизу появляется малый розовый кружок со значением из большого, а сам кружок становится пустым
+            cy.get(`[id=circle-index-${tail}]`).as('tail-circle');
+
+            cy.get('@tail-circle')
+              .should('contain', '');
+
+            cy.get('@tail-circle')
+              .parent()
+              .next()
+              .should('contain', `${tailValue}`);
+            cy.get('@tail-circle')
+              .parent()
+              .next()
+              .invoke('attr', 'class')
+              .should('contain', 'smallCircleWrapBottom');
+
+            // спустя секунду оба кружка исчезают, длина сокращается на 1, а в tail попадает значение предыдущего кружка
+            cy.wait(DELAY_IN_MS);
+
+            list.pop();
+            tail = list.length - 1;
+
+            cy.get(`[id=circle-index-${tail}]`).as('tail-circle');
+            cy.get('@tail-circle')
+              .parent()
+              .next()
+              .should('not.exist');
+
+            cy.get('@tail-circle')
+              .should('contain', `${prevValue}`);
+
+            cy.get('@tail-circle')
+              .nextUntil('circle_string')
+              .should('contain', 'tail');
+
+            cy.get('[class^=circle_circle]')
+              .its('length')
+              .should('be.eq', list.length);
+          })
+      })
+  });
+
+  it('Delete-by-index-button functionality works correctly', function () {
+    if (list.length <= 3) {
+      for (let i = 0; i < 4; i++) {
+        cy.get('input[type^=text]').clear().type(`${i}`);
+        cy.get('button').contains("Добавить в head").click();
+      }
+      cy.wait(3500);
+    }
+
+    cy.get('button').contains("Удалить по индексу").click();
+
+    cy.get('input[type^=number]')
+      .invoke('val')
+      .then((valIndex) => {
+        const index = parseInt(valIndex);
+
+        cy.get(`[id=circle-index-${index}]`)
+          .find('p')
+          .then((val) => {
+            const valueByIndex = val.text();
+
+            cy.get(`[id=circle-index-${index + 1}]`)
+              .find('p')
+              .then((val) => {
+                const nextValue = val.text();
+
+                for (let i = 0; i <= index; i++) {
+                  cy.get(`[id=circle-index-${i}]`).as(`circle-${i}`);
+
+                  cy.wait(DELAY_IN_MS);
+
+                  if (i < index) {
+                    cy.get(`@circle-${i}`)
+                      .invoke('attr', 'class')
+                      .should('contain', 'circle_changing');
+                  } else {
+                    cy.get(`@circle-${i}`)
+                      .parent()
+                      .next()
+                      .should('contain', `${valueByIndex}`);
+                    cy.get(`@circle-${i}`)
+                      .parent()
+                      .next()
+                      .invoke('attr', 'class')
+                      .should('contain', 'smallCircleWrapBottom');
+                  }
+                }
+                // Спустя 1с оба кружка исчезают, длина уменьшается на 1, а место по индексу занимает следующий элемент
+                cy.wait(DELAY_IN_MS);
+
+                list.splice(index, 1);
+
+                cy.get(`[id=circle-index-${index}]`).as(`circle-${index}`);
+                cy.get(`@circle-${index}`)
+                  .parent()
+                  .next()
+                  .should('not.exist');
+
+                cy.get(`@circle-${index}`)
+                  .should('contain', `${nextValue}`);
+
+                cy.get('[class^=circle_circle]').as('bigCircles');
+
+                cy.get('@bigCircles')
+                  .invoke('attr', 'class')
+                  .should('contain', 'circle_default');
+
+                cy.get('@bigCircles')
+                  .its('length')
+                  .should('be.eq', list.length)
+              })
+          })
       })
   });
 });
