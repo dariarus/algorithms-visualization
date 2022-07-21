@@ -44,17 +44,21 @@ export const QueuePage: React.FC = () => {
         .push(queue.head.index === i && queue.tail.index === i && queueContainer[i]?.symbol
           ? <Circle key={i} symbol={queueContainer[i]?.symbol}
                     state={queueContainer[i]?.status}
+                    showIndex={true}
                     index={i} head="head" tail="tail"/>
           : queue.head.index === i && queueContainer[i]?.symbol
             ? <Circle key={i} symbol={queueContainer[i]?.symbol}
                       state={queueContainer[i]?.status}
+                      showIndex={true}
                       index={i} head="head"/>
             : queue.tail.index === i && queueContainer[i]?.symbol
               ? <Circle key={i} symbol={queueContainer[i]?.symbol}
                         state={queueContainer[i]?.status}
+                        showIndex={true}
                         index={i} tail="tail"/>
               : <Circle key={i} symbol={queueContainer[i]?.symbol}
                         state={queueContainer[i]?.status}
+                        showIndex={true}
                         index={i}/>
         )
     }
