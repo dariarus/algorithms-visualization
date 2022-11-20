@@ -16,7 +16,7 @@ import "./app.module.css";
 function App() {
   return (
     <div className={app.app}>
-      <BrowserRouter basename="/algorithms">
+      <BrowserRouter basename="/algorithms-visualization/">
         <Switch>
           <Route path="/" exact>
             <MainPage />
