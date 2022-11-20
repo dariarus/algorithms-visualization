@@ -83,8 +83,8 @@ export const StackPage: React.FC = () => {
         {
           stack && stackContainer.map((item, index) =>
             index === stackContainer.length - 1
-              ? <Circle key={`circle-named-top: ${index}`} state={item.status} symbol={item.symbol} index={index} head="top"/>
-              : <Circle key={`circle: ${index}`} state={item.status} symbol={item.symbol} index={index}/>
+              ? <Circle key={`circle-named-top: ${index}`} state={item.status} symbol={item.symbol} showIndex={true} index={index} head="top"/>
+              : <Circle key={`circle: ${index}`} state={item.status} symbol={item.symbol} showIndex={true} index={index}/>
           )
         }
       </div>

@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./circle.module.css";
-import { ElementStates } from "../../../types/element-states";
+import {ElementStates} from "../../../types/element-states";
 
 interface CircleProps {
   state?: ElementStates;
@@ -11,17 +11,19 @@ interface CircleProps {
   tailType?: "string" | "element";
   extraClass?: string;
   isSmall?: boolean;
+  showIndex?: boolean;
 }
 
 export const Circle: React.FC<CircleProps> = ({
-  state = ElementStates.Default,
-  symbol,
-  head,
-  index,
-  tail,
-  extraClass = "",
-  isSmall,
-}) => {
+                                                state = ElementStates.Default,
+                                                symbol,
+                                                head,
+                                                index,
+                                                tail,
+                                                extraClass = "",
+                                                isSmall,
+                                                showIndex = false
+                                              }) => {
   return (
     <div className={`${styles.content} ${extraClass}`}>
       <div
@@ -33,10 +35,10 @@ export const Circle: React.FC<CircleProps> = ({
       >
         {head}
       </div>
-      <div
-        className={`${styles.circle}  ${isSmall ? styles.small : ""} ${
-          styles[state]
-        }`}
+      <div id={`circle-index-${index}`}
+           className={`${styles.circle}  ${isSmall ? styles.small : ""} ${
+             styles[state]
+           }`}
       >
         <p
           className={`text text_type_circle text_color_input ${styles.letter}`}
@@ -47,12 +49,14 @@ export const Circle: React.FC<CircleProps> = ({
       <p
         className={`text text_type_input text_color_input mt-4 ${styles.absolute} ${styles.index}`}
       >
-        {index?.toString()}
+        {
+          showIndex && index?.toString()
+        }
       </p>
       <div
         className={`text text_type_input text_color_input mt-4 ${
           styles.absolute
-        } ${index?.toString() ? styles.tail60 : styles.tail30} ${
+        } ${showIndex && index?.toString() ? styles.tail60 : styles.tail30} ${
           styles[typeof tail === "string" ? "string" : "element"]
         }`}
       >
